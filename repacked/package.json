@@ -6,6 +6,9 @@
   "author": "Rukshan Fernando<ruk.fernando93@gmail.com>",
   "license": "MIT",
   "packageManager": "yarn@4.5.1",
+  "scripts": {
+    "repacked": "ts-node ./src/index.ts"
+  },
   "dependencies": {
     "@babel/core": "7.26.0",
     "@babel/preset-env": "7.26.0",
@@ -28,6 +31,7 @@
   "devDependencies": {
     "@swc/core": "1.7.42",
     "@types/node": "22.8.6",
+    "ts-node": "10.9.2",
     "tsup": "8.3.5"
   }
 }
