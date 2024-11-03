@@ -3,12 +3,13 @@
   "version": "0.0.0-alpha",
   "main": "index.js",
   "repository": "git@github.com:rukshan-dev/repacked.git",
-  "author": "Rukshan Fernando<ruk.fernando93@gmail.com>",
+  "author": "Rukshan Fernando<hello@rukshan.dev>",
   "license": "MIT",
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "build": "tsup",
-    "repacked": "yarn build && node ./dist/cli.js"
+    "build": "tsup && node ./scripts/generateManifest.js && node ./scripts/setupNpmrc.js && cp LICENSE ./dist/LICENSE",
+    "repacked": "yarn build && node ./dist/cli.js",
+    "deploy": "yarn --cwd ./dist npm publish"
   },
   "dependencies": {
     "@babel/core": "7.26.0",
