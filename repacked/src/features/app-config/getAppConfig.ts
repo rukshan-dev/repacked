@@ -13,7 +13,6 @@ const getAppConfig = async () => {
       .default as AppConfig;
     return { ...defaultAppConfig, ...config };
   } catch (e) {
-    console.error(e);
     console.warn("loading default config");
     return defaultAppConfig;
   }

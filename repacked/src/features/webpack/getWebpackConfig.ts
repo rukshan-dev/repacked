@@ -6,13 +6,16 @@ import { ModuleFederationPlugin } from "@module-federation/enhanced/webpack";
 import CopyPlugin from "copy-webpack-plugin";
 import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
+import { BuildMode } from "./types";
 
 const getWebpackConfig: (
+  mode: BuildMode,
   appConfig: AppConfig
-) => Promise<Configuration> = async (appConfig: AppConfig) => {
+) => Promise<Configuration> = async (mode, appConfig: AppConfig) => {
+  const isDevelopment = mode === "development";
   const plugins: Configuration["plugins"] = [];
   plugins.push(new HtmlWebpackPlugin({ template: cwd("./src/index.html") }));
-  plugins.push(new ReactRefreshWebpackPlugin()); //only dev mode
+  isDevelopment && plugins.push(new ReactRefreshWebpackPlugin());
   plugins.push(
     new CopyPlugin({
       patterns: [
@@ -28,6 +31,7 @@ const getWebpackConfig: (
   }
 
   const webpackConfig: Configuration = {
+    mode,
     entry: cwd(appConfig.entry),
     devtool: "source-map",
     output: {
@@ -43,7 +47,7 @@ const getWebpackConfig: (
           use: {
             loader: "babel-loader",
             options: {
-              plugins: ["react-refresh/babel"], //only dev mode
+              plugins: isDevelopment ? ["react-refresh/babel"] : [],
               presets: [
                 "@babel/preset-env",
                 [
@@ -73,7 +77,6 @@ const getWebpackConfig: (
     resolve: {
       extensions: ["*", ".jsx", ".tsx", ".ts", ".js"],
     },
-    mode: "development",
     performance: {
       hints: false,
     },
