@@ -3,6 +3,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { build, serve } from "./features/webpack/webpack";
 import { BuildMode } from "./features/webpack/types";
+import "dotenv/config";
 
 const exec = () =>
   yargs(hideBin(process.argv))

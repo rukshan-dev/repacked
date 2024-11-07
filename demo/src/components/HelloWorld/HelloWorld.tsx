@@ -1,4 +1,4 @@
-import { FC, Fragment } from "react";
+import { FC } from "react";
 import logo from "./logo.svg";
 import "./style.css";
 

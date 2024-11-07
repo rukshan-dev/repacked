@@ -2,6 +2,7 @@
  * @type {Partial<import('repacked').AppConfig>}
  */
 const config = {
+  entry: "./src/index.tsx",
   devServer: {
     open: true,
     port: 4000,

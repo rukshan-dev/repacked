@@ -3017,6 +3017,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:16.4.5":
+  version: 16.4.5
+  resolution: "dotenv@npm:16.4.5"
+  checksum: 10c0/48d92870076832af0418b13acd6e5a5a3e83bb00df690d9812e94b24aff62b88ade955ac99a05501305b8dc8f1b0ee7638b18493deb6fe93d680e5220936292f
+  languageName: node
+  linkType: hard
+
 "eastasianwidth@npm:^0.2.0":
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
@@ -5322,7 +5329,7 @@ __metadata:
 
 "repacked@file:../repacked/dist/::locator=test-project%40workspace%3A.":
   version: 0.0.0-alpha
-  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=6e6dba&locator=test-project%40workspace%3A."
+  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=50c5c2&locator=test-project%40workspace%3A."
   dependencies:
     "@babel/core": "npm:7.26.0"
     "@babel/preset-env": "npm:7.26.0"
@@ -5333,6 +5340,7 @@ __metadata:
     babel-loader: "npm:9.2.1"
     copy-webpack-plugin: "npm:12.0.2"
     css-loader: "npm:7.1.2"
+    dotenv: "npm:16.4.5"
     file-loader: "npm:6.2.0"
     html-webpack-plugin: "npm:5.6.3"
     react-refresh: "npm:0.14.2"
@@ -5344,7 +5352,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     repacked: ./cli.js
-  checksum: 10c0/d35b2fb1daa8ff0083f2eb217b009639746a6082d470868eb9b60b9aba2cfb668893db0f9bb79166e6c629ced535d78b28381b9fa63a07744511431fd0c402d1
+  checksum: 10c0/2d068fdb2ef6bca41c7cfe2c327e1b0de6f85cf234655127678e5e3d75e151f00a25c31b637096f761f88497183c4677495e23cbe7d5076b96baf68496146b26
   languageName: node
   linkType: hard
 

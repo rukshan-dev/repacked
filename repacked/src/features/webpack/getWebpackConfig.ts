@@ -7,6 +7,7 @@ import CopyPlugin from "copy-webpack-plugin";
 import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
 import { BuildMode } from "./types";
+import { EnvVariablesPlugin } from "./plugins/envVariables";
 
 const getWebpackConfig: (
   mode: BuildMode,
@@ -14,7 +15,9 @@ const getWebpackConfig: (
 ) => Promise<Configuration> = async (mode, appConfig: AppConfig) => {
   const isDevelopment = mode === "development";
   const plugins: Configuration["plugins"] = [];
+
   plugins.push(new HtmlWebpackPlugin({ template: cwd("./src/index.html") }));
+  plugins.push(EnvVariablesPlugin(appConfig.envFilter));
   isDevelopment && plugins.push(new ReactRefreshWebpackPlugin());
   plugins.push(
     new CopyPlugin({
@@ -79,13 +82,6 @@ const getWebpackConfig: (
     },
     performance: {
       hints: false,
-    },
-    optimization: {
-      splitChunks: {
-        chunks: "all",
-        minSize: 10000,
-        maxSize: 250000,
-      },
     },
     devServer: {
       port: 3000,
