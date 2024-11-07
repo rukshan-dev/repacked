@@ -5329,7 +5329,7 @@ __metadata:
 
 "repacked@file:../repacked/dist/::locator=test-project%40workspace%3A.":
   version: 0.0.0-alpha
-  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=50c5c2&locator=test-project%40workspace%3A."
+  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=d4bd75&locator=test-project%40workspace%3A."
   dependencies:
     "@babel/core": "npm:7.26.0"
     "@babel/preset-env": "npm:7.26.0"
@@ -5352,7 +5352,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     repacked: ./cli.js
-  checksum: 10c0/2d068fdb2ef6bca41c7cfe2c327e1b0de6f85cf234655127678e5e3d75e151f00a25c31b637096f761f88497183c4677495e23cbe7d5076b96baf68496146b26
+  checksum: 10c0/273ac1fbfcafc3be45480c28acc474c19900b090409edafc2ce63cad46fbb7edfa275ef030c57e3ffa12bd5c22d47598c87239b9384bead631b549f88ad92a30
   languageName: node
   linkType: hard
 

@@ -9,8 +9,7 @@ const config = {
   },
   moduleFederation: {
     runtime: false,
-    remoteType: "script",
-    name: "remote",
+    name: "demo",
     filename: "remoteEntry.js",
     shared: {
       react: {
@@ -23,13 +22,11 @@ const config = {
     exposes: {
       "./HelloWorld": "./src/components/HelloWorld/HelloWorld.tsx",
     },
-    remotes: {
-      remote: "remote@/remoteEntry.js",
-    },
     shareStrategy: "loaded-first",
     experiments: {
       federationRuntime: "hoisted",
     },
+    dts: false,
   },
   webpack: (config) => {
     return config;
