@@ -7,7 +7,8 @@
   "license": "MIT",
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "build": "tsup && node ./scripts/generateManifest.js && node ./scripts/setupNpmrc.js && cp LICENSE ./dist/LICENSE",
+    "build:npm": "tsup && node ./scripts/generateManifest.js generate --registry=npm && cp LICENSE ./dist/LICENSE",
+    "build:github": "tsup && node ./scripts/generateManifest.js generate --registry=github && node ./scripts/setupNpmrc.js && cp LICENSE ./dist/LICENSE",
     "repacked": "yarn build && node ./dist/cli.js",
     "deploy": "yarn --cwd ./dist npm publish"
   },

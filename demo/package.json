@@ -5,7 +5,7 @@
   "license": "MIT",
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "build-repacked": "yarn --cwd ../repacked run build && rm -rf ./node_modules/.bin && yarn",
+    "build-repacked": "yarn --cwd ../repacked run build:github && rm -rf ./node_modules/.bin && yarn",
     "start": "yarn build-repacked && repacked serve",
     "build": "yarn build-repacked && repacked build"
   },
