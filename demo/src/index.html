@@ -17,15 +17,8 @@
         background: linear-gradient(to right, #243b55, #141e30);
       }
     </style>
-    <%= htmlWebpackPlugin
-    .tags
-    .headTags
-    .filter((tag) => tag.attributes.src.indexOf("remote") === -1)
-    .join('')
-  %>
   </head>
   <body>
     <div id="root"></div>
-    <%= htmlWebpackPlugin.tags.bodyTags %>
   </body>
 </html>

@@ -8,6 +8,7 @@ import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
 import { BuildMode } from "./types";
 import { EnvVariablesPlugin } from "./plugins/envVariables";
+import HtmlMFWebpackPlugin from "./plugins/htmlMFWebpackPlugin";
 
 const getWebpackConfig: (
   mode: BuildMode,
@@ -15,7 +16,7 @@ const getWebpackConfig: (
 ) => Promise<Configuration> = async (mode, appConfig: AppConfig) => {
   const isDevelopment = mode === "development";
   const plugins: Configuration["plugins"] = [];
-  plugins.push(new HtmlWebpackPlugin({ template: cwd("./src/index.html"), inject: false  }));
+  plugins.push(new HtmlWebpackPlugin({ template: cwd("./src/index.html") }));
   plugins.push(EnvVariablesPlugin(appConfig.envFilter));
   isDevelopment && plugins.push(new HotModuleReplacementPlugin());
   isDevelopment &&
@@ -32,6 +33,7 @@ const getWebpackConfig: (
   );
   if (appConfig.moduleFederation) {
     plugins.push(new ModuleFederationPlugin(appConfig.moduleFederation));
+    plugins.push(new HtmlMFWebpackPlugin(appConfig.moduleFederation.filename));
   }
 
   const webpackConfig: Configuration = {
