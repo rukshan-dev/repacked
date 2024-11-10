@@ -9,7 +9,7 @@ const manifest = {
   version: packageJson.version,
   main: "./index.js",
   bin: {
-    "create-repacked": "./index.js",
+    "create-repacked": "./cli.js",
   },
   repository: packageJson.repository,
   author: packageJson.author,
