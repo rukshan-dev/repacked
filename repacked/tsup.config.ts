@@ -1,10 +1,12 @@
 import { defineConfig } from "tsup";
 
-export default defineConfig({
-  entry: ["src/index.ts","src/cli.ts"],
-  splitting: false,
-  sourcemap: false,
-  clean: true,
-  dts: true,
-  outDir: "./dist"
-});
+export default defineConfig([
+  {
+    entry: ["src/index.ts", "src/cli.ts", "src/features/test/transformers"],
+    splitting: false,
+    sourcemap: false,
+    clean: true,
+    dts: true,
+    outDir: "./dist",
+  },
+]);

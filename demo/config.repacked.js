@@ -1,5 +1,5 @@
 /**
- * @type {Partial<import('repacked').AppConfig>}
+ * @type {import('repacked').AppConfig}
  */
 const config = {
   entry: "./src/index.tsx",
@@ -29,6 +29,9 @@ const config = {
     dts: false,
   },
   webpack: (config) => {
+    return config;
+  },
+  jest: (config) => {
     return config;
   },
 };

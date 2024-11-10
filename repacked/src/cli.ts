@@ -4,6 +4,7 @@ import { hideBin } from "yargs/helpers";
 import { build, serve } from "./features/webpack/webpack";
 import { BuildMode } from "./features/webpack/types";
 import "dotenv/config";
+import { runTest } from "./features/test/test";
 
 const exec = () =>
   yargs(hideBin(process.argv))
@@ -33,6 +34,17 @@ const exec = () =>
       },
       (argv) => {
         build(argv.mode as BuildMode);
+      }
+    )
+    .command(
+      "test",
+      "test the app",
+      (yargs) => {
+        return yargs;
+      },
+      (argv) => {
+        const jestArgv = process.argv.slice(2);
+        runTest(jestArgv);
       }
     )
     .strictCommands()

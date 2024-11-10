@@ -7,6 +7,7 @@ const defaultAppConfig: AppConfig = {
   devServer: {},
   envFilter: (key) => key.startsWith("PUBLIC_"),
   webpack: (config) => config,
+  jest: (config) => config,
 };
 
 const getAppConfig = async () => {

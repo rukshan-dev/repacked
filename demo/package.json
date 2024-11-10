@@ -7,7 +7,8 @@
   "scripts": {
     "build-repacked": "yarn --cwd ../repacked run build:github && rm -rf ./node_modules/.bin && yarn",
     "start": "yarn build-repacked && repacked serve",
-    "build": "yarn build-repacked && repacked build"
+    "build": "yarn build-repacked && repacked build",
+    "test": "yarn build-repacked && repacked test"
   },
   "dependencies": {
     "react": "18.3.1",
