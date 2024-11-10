@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import prompts from "prompts";
 import { UserOptions } from "./types";
 import cwd from "./utils/cwd";
