@@ -1,13 +1,13 @@
 {
   "name": "repacked",
-  "version": "0.0.2-alpha",
+  "version": "0.0.3-alpha",
   "main": "index.js",
   "repository": "git@github.com:rukshan-dev/repacked.git",
   "author": "Rukshan Fernando<hello@rukshan.dev>",
   "license": "MIT",
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "build:npm": "tsup && node ./scripts/generateManifest.js generate --registry=npm && cp LICENSE ./dist/LICENSE",
+    "build:npm": "tsup && node ./scripts/generateManifest.js generate --registry=npm && cp LICENSE ./dist/LICENSE && cp ../README.md ./dist/README.md",
     "build:github": "tsup && node ./scripts/generateManifest.js generate --registry=github && node ./scripts/setupNpmrc.js && cp LICENSE ./dist/LICENSE",
     "repacked": "yarn build && node ./dist/cli.js",
     "deploy": "yarn --cwd ./dist npm publish"
