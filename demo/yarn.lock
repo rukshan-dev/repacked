@@ -3341,7 +3341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.1.0":
+"chalk@npm:4.1.2, chalk@npm:^4.0.0, chalk@npm:^4.1.0":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -3637,6 +3637,17 @@ __metadata:
   bin:
     create-jest: bin/create-jest.js
   checksum: 10c0/e7e54c280692470d3398f62a6238fd396327e01c6a0757002833f06d00afc62dd7bfe04ff2b9cd145264460e6b4d1eb8386f2925b7e567f97939843b7b0e812f
+  languageName: node
+  linkType: hard
+
+"create-repacked@file:../create-repacked/dist/::locator=test-project%40workspace%3A.":
+  version: 0.0.0-alpha
+  resolution: "create-repacked@file:../create-repacked/dist/#../create-repacked/dist/::hash=fa8e25&locator=test-project%40workspace%3A."
+  dependencies:
+    chalk: "npm:4.1.2"
+  bin:
+    create-repacked: ./index.js
+  checksum: 10c0/46c42aa7822ffd2d9a7444dd3f6f475b8ab7cfaae0a515460c620886b30ab301578d143ad20f869e1d411ecd5661ea63bda62a1e17dfb495795759d0c891d345
   languageName: node
   linkType: hard
 
@@ -7442,8 +7453,8 @@ __metadata:
   linkType: hard
 
 "repacked@file:../repacked/dist/::locator=test-project%40workspace%3A.":
-  version: 0.0.1-alpha
-  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=b82fb7&locator=test-project%40workspace%3A."
+  version: 0.0.2-alpha
+  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=495617&locator=test-project%40workspace%3A."
   dependencies:
     "@babel/core": "npm:7.26.0"
     "@babel/preset-env": "npm:7.26.0"
@@ -7473,7 +7484,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     repacked: ./cli.js
-  checksum: 10c0/dd7dd3ee9183a9f04f25c3198b6065e27b50f95f856c6f4fabcdfa4fca6d1e535a541ea23b715e35dec97e58dfb3fb4474e1109e42ab652663e20afac061064b
+  checksum: 10c0/927d9b6cb35a551c030114fd735c812f1ec8ee93e4755bd587cdc1fc54a151c7fee96957700d564ab0c7c3b6dc1b69ea89f66a97d7de624202c93d2d232f8da4
   languageName: node
   linkType: hard
 
@@ -8244,6 +8255,7 @@ __metadata:
   dependencies:
     "@types/react": "npm:18.3.12"
     "@types/react-dom": "npm:18.3.1"
+    create-repacked: "file:../create-repacked/dist/"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     repacked: "file:../repacked/dist/"
