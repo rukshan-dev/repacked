@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import chalk from "chalk";
+const chalk = require("chalk");
 
 const message = `
 ${chalk.bold.green("🚀  Great News!")}  ${chalk.bold.cyan("🎉")}

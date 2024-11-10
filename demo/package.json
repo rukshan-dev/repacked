@@ -6,11 +6,14 @@
   "packageManager": "yarn@4.5.1",
   "scripts": {
     "build-repacked": "yarn --cwd ../repacked run build:github && rm -rf ./node_modules/.bin && yarn",
+    "build-create-repacked": "yarn --cwd ../create-repacked run build:github && rm -rf ./node_modules/.bin && yarn",
+    "create-repacked": "yarn build-create-repacked && create-repacked",
     "start": "yarn build-repacked && repacked serve",
     "build": "yarn build-repacked && repacked build",
     "test": "yarn build-repacked && repacked test"
   },
   "dependencies": {
+    "create-repacked": "file:../create-repacked/dist/",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "repacked": "file:../repacked/dist/",
