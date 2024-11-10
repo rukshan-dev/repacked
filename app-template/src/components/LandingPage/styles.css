@@ -1,0 +1,44 @@
+* {
+  font-family: "Lora", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  background: #333;
+  color: rgb(182, 182, 182);
+  font-size: 1.2rem;
+}
+.container {
+  max-width: 600px;
+}
+h1{
+  font-size: 2.4rem;
+}
+h1, b{
+  font-weight: 500;
+}
+.feature-item{
+  margin-bottom: 16px;
+}
+i{
+  font-style: italic;
+  padding: 2px 4px;
+  margin: 2px;
+  color: rgb(241, 130, 130);
+}
+strong{
+  font-style: oblique;
+  font-weight: 600;
+  margin-right: 8px;
+}
+.brand{
+  font-style: oblique;
+  font-weight: 600;
+  color: rgb(241, 130, 130);
+}
