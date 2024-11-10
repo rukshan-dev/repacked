@@ -1,0 +1,23 @@
+{
+  "name": "create-repacked",
+  "version": "0.0.0-alpha",
+  "main": "index.js",
+  "repository": "git@github.com:rukshan-dev/repacked.git",
+  "author": "Rukshan Fernando<hello@rukshan.dev>",
+  "license": "MIT",
+  "packageManager": "yarn@4.5.1",
+  "scripts": {
+    "build:npm": "tsup && node ./scripts/generateManifest.js generate --registry=npm && cp LICENSE ./dist/LICENSE",
+    "build:github": "tsup && node ./scripts/generateManifest.js generate --registry=github && node ./scripts/setupNpmrc.js && cp LICENSE ./dist/LICENSE",
+    "deploy": "yarn --cwd ./dist npm publish"
+  },
+  "dependencies": {
+    "chalk": "5.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@swc/core": "1.7.42",
+    "tsup": "8.3.5",
+    "yargs": "17.7.2"
+  }
+}
