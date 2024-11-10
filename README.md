@@ -1,4 +1,14 @@
-# `Repacked` API Documentation
+# Repacked
+
+## Initialization
+
+To initialize a new project with `repacked`, you can use the following command:
+
+```bash
+npx create-repacked@latest
+```
+
+## API Documentation
 
 ```typescript
 // filename: config.repacked.js
