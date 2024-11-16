@@ -4,6 +4,7 @@ import { UserOptions } from "./types";
 import cwd from "./utils/cwd";
 import path from "path";
 import createDefaultTemplate from "./template-scripts/createDefaultTemplate";
+import validatePackageName from "./actions/validatePackageName";
 
 (async () => {
   const response = await prompts([
@@ -12,6 +13,7 @@ import createDefaultTemplate from "./template-scripts/createDefaultTemplate";
       name: "name",
       message: "Enter the app name:",
       initial: "repacked-app",
+      validate: (name) => validatePackageName(name),
     },
   ]);
 

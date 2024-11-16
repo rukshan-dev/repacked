@@ -3641,14 +3641,15 @@ __metadata:
   linkType: hard
 
 "create-repacked@file:../create-repacked/dist/::locator=test-project%40workspace%3A.":
-  version: 0.0.1-alpha
-  resolution: "create-repacked@file:../create-repacked/dist/#../create-repacked/dist/::hash=20b612&locator=test-project%40workspace%3A."
+  version: 0.0.3-alpha
+  resolution: "create-repacked@file:../create-repacked/dist/#../create-repacked/dist/::hash=cb2863&locator=test-project%40workspace%3A."
   dependencies:
     chalk: "npm:4.1.2"
     prompts: "npm:2.4.2"
+    validate-npm-package-name: "npm:6.0.0"
   bin:
     create-repacked: ./cli.js
-  checksum: 10c0/0a2ef79cce09e436ac228a320d1c51351b0823729e6b85f063082584ea819c6193bc9eec809885057fbb0655b8e518ceb77736a3d4c7f30fee715b7e8bccf63c
+  checksum: 10c0/985df56e152089b1954637d7337984a52f3c9f74ee8c9dee273a1b0a100538ea6bc1b6c04b301c841332d3bea865d76b075dbfb996fe86788c4cc6ad945c5d98
   languageName: node
   linkType: hard
 
@@ -7444,7 +7445,7 @@ __metadata:
 
 "repacked@file:../repacked/dist/::locator=test-project%40workspace%3A.":
   version: 0.0.2-alpha
-  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=495617&locator=test-project%40workspace%3A."
+  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=4ea0e1&locator=test-project%40workspace%3A."
   dependencies:
     "@babel/core": "npm:7.26.0"
     "@babel/preset-env": "npm:7.26.0"
@@ -7474,7 +7475,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     repacked: ./cli.js
-  checksum: 10c0/927d9b6cb35a551c030114fd735c812f1ec8ee93e4755bd587cdc1fc54a151c7fee96957700d564ab0c7c3b6dc1b69ea89f66a97d7de624202c93d2d232f8da4
+  checksum: 10c0/51bc8cb8561a86b2d42e53d05a830ddef4708551e93cff76e9f9ef72375d3f55b3895d689b604d39db9f2ef79d9c4d83bebf3dd73db49197dc1b5246e4548a94
   languageName: node
   linkType: hard
 
@@ -8565,6 +8566,13 @@ __metadata:
     "@types/istanbul-lib-coverage": "npm:^2.0.1"
     convert-source-map: "npm:^2.0.0"
   checksum: 10c0/968bcf1c7c88c04df1ffb463c179558a2ec17aa49e49376120504958239d9e9dad5281aa05f2a78542b8557f2be0b0b4c325710262f3b838b40d703d5ed30c23
+  languageName: node
+  linkType: hard
+
+"validate-npm-package-name@npm:6.0.0":
+  version: 6.0.0
+  resolution: "validate-npm-package-name@npm:6.0.0"
+  checksum: 10c0/35d1896d90a4f00291cfc17077b553910d45018b3562841acc6471731794eeebe39b409f678e8c1fee8ef1786e087cac8dea19abdd43649c30fd0b9c752afa2f
   languageName: node
   linkType: hard
 
