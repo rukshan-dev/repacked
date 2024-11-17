@@ -2,46 +2,102 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Initialization
 
-Let's discover **Docusaurus in less than 5 minutes**.
-
-## Getting Started
-
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
+To initialize a new project with `repacked`, you can use the following command:
 
 ```bash
-npm init docusaurus@latest my-website classic
+npx create-repacked@latest
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+## API Documentation
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+```typescript
+// filename: config.repacked.js
+/**
+ * @type {import('repacked').AppConfig}
+ */
+const config = {
+  entry: "./src/index.tsx",
+  devServer: {
+    open: true,
+    port: 3000,
+  },
+  webpack: (config) => {
+    return config;
+  },
+  jest: (config) => {
+    return config;
+  },
+};
 
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
+module.exports = config;
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+## `entry: string`
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+- **Type**: `string`
+- **Description**: The entry point for your application. This is the main file that Webpack will start bundling from. Typically, this is the root JavaScript or TypeScript file of your React app.
+- **Example**:
+  ```js
+  entry: "./src/index.tsx"
+  ```
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+## `devServer: object`
+
+The `devServer` configuration provides options for setting up the development server behavior.
+
+- **Type**: `object`
+- **Properties**:
+  - `open: boolean`
+    - **Type**: `boolean`
+    - **Description**: Determines whether the browser should automatically open when the development server starts.
+    - **Default**: `false`
+    - **Example**:
+      ```js
+      open: true
+      ```
+  - `port: number`
+    - **Type**: `number`
+    - **Description**: Specifies the port on which the development server will run.
+    - **Default**: `3000`
+    - **Example**:
+      ```js
+      port: 3000
+      ```
+
+## `webpack: function`
+
+This function allows you to modify the Webpack configuration that is passed to it.
+
+- **Type**: `(config: WebpackConfiguration) => WebpackConfiguration`
+- **Parameters**:
+  - `config`: The Webpack configuration object that `repacked` generates by default.
+- **Return**: The modified Webpack configuration.
+- **Example**:
+  ```js
+  webpack: (config) => {
+    // Modify or extend the default Webpack config here
+    return config;
+  }
+  ```
+
+## `jest: function`
+
+This function allows you to modify the Jest configuration used for running tests.
+
+- **Type**: `(config: JestConfiguration) => JestConfiguration`
+- **Parameters**:
+  - `config`: The Jest configuration object that `repacked` generates by default.
+- **Return**: The modified Jest configuration.
+- **Example**:
+  ```js
+  jest: (config) => {
+    // Modify or extend the default Jest config here
+    return config;
+  }
+  ```
+
+---
+
+This API provides flexibility for customizing the behavior of your build process, including the Webpack bundling and Jest testing setups.

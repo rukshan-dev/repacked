@@ -38,17 +38,17 @@ const config: Config = {
         docs: {
           sidebarPath: "./sidebars.ts",
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ["rss", "atom"],
-            xslt: true,
-          },
-          // Useful options to enforce blogging best practices
-          onInlineTags: "warn",
-          onInlineAuthors: "warn",
-          onUntruncatedBlogPosts: "warn",
-        },
+        // blog: {
+        //   showReadingTime: true,
+        //   feedOptions: {
+        //     type: ["rss", "atom"],
+        //     xslt: true,
+        //   },
+        //   // Useful options to enforce blogging best practices
+        //   onInlineTags: "warn",
+        //   onInlineAuthors: "warn",
+        //   onUntruncatedBlogPosts: "warn",
+        // },
         theme: {
           customCss: "./src/css/custom.css",
         },
@@ -70,9 +70,8 @@ const config: Config = {
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Documentation",
         },
-        { to: "/blog", label: "Blog", position: "left" },
         {
           href: "https://github.com/rukshan-dev/repacked",
           label: "GitHub",
@@ -87,7 +86,7 @@ const config: Config = {
           title: "Docs",
           items: [
             {
-              label: "Tutorial",
+              label: "Documentation",
               to: "/docs/intro",
             },
           ],
@@ -95,10 +94,6 @@ const config: Config = {
         {
           title: "More",
           items: [
-            {
-              label: "Blog",
-              to: "/blog",
-            },
             {
               label: "GitHub",
               href: "https://github.com/rukshan-dev/repacked",
@@ -123,7 +118,7 @@ const config: Config = {
       rel: "preconnect",
       crossorigin: true,
     },
-    "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Gabarito:wght@400..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Sora:wght@100..800&display=swap",
+    "https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Gabarito:wght@400..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Sora:wght@100..800&display=swap",
   ],
 };
 
