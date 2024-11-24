@@ -11,7 +11,6 @@ class HtmlMFWebpackPlugin {
         HtmlWebpackPlugin.getCompilationHooks(
           compilation
         ).alterAssetTags.tapAsync("HtmlMFWebpackPlugin", (data, cb) => {
-          console.log(data.assetTags.scripts);
           data.assetTags.scripts = data.assetTags.scripts.filter(
             (script) => script.attributes.src !== this.entryFile
           );

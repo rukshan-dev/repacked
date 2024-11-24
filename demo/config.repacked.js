@@ -7,6 +7,10 @@ const config = {
     open: true,
     port: 4000,
   },
+  apiServer: {
+    enabled: true,
+    entry: './src/server.tsx'
+  },
   moduleFederation: {
     runtime: false,
     name: "demo",
