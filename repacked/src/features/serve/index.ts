@@ -17,7 +17,7 @@ const serveExpress = async (
   compiler: Compiler
 ) => {
   const babelOptions = getBabelOptions(true);
-  const port = appConfig.devServer?.port || 3000;
+  const port = appConfig.development.port || 3000;
   require("@babel/register")({
     extensions: [".ts", ".js", ".tsx", ".jsx"],
     presets: babelOptions.presets,
@@ -27,7 +27,7 @@ const serveExpress = async (
     ],
   });
   const { default: apiServerCallback } = await import(
-    cwd(appConfig.apiServer?.entry as string)
+    cwd(appConfig.server.entry as string)
   );
   const app = expressServer();
   const devMiddleware = webpackDevMiddleware(compiler, {
@@ -61,7 +61,7 @@ const serve = async (mode: BuildMode) => {
   const appConfig = await getAppConfig();
   const webpackConfig = await getWebpackConfig(mode, appConfig);
   const compiler = webpack(webpackConfig);
-  if (appConfig.apiServer?.enabled) {
+  if (appConfig.server.enabled) {
     serveExpress(appConfig, webpackConfig, compiler);
   } else {
     serveWebpack(appConfig, webpackConfig, compiler);

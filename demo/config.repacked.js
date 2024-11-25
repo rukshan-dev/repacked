@@ -3,13 +3,13 @@
  */
 const config = {
   entry: "./src/index.tsx",
-  devServer: {
+  development: {
     open: true,
     port: 4000,
   },
-  apiServer: {
+  server: {
     enabled: true,
-    entry: './src/server.tsx'
+    entry: "./src/server.tsx",
   },
   moduleFederation: {
     runtime: false,

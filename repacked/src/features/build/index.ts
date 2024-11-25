@@ -8,7 +8,7 @@ import cwd from "../../utils/cwd";
 
 const build = async (mode: BuildMode) => {
   const appConfig = await getAppConfig();
-  const serverEnabled = appConfig.apiServer?.enabled;
+  const serverEnabled = appConfig.server.enabled;
   const clientOutputPath = serverEnabled
     ? path.join(appConfig.output.dir, "client")
     : appConfig.output.dir;
