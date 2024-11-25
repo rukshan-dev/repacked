@@ -4,6 +4,9 @@ import { AppConfig } from "./types";
 const defaultAppConfig: AppConfig = {
   appName: "app_name",
   entry: "./src/index.tsx",
+  output: {
+    dir: "./dist",
+  },
   devServer: {},
   envFilter: (key) => key.startsWith("PUBLIC_"),
   webpack: (config) => config,

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import { build } from "./features/webpack/webpack";
+import build from "./features/build";
 import { BuildMode } from "./features/webpack/types";
 import "dotenv/config";
 import { runTest } from "./features/test/test";
