@@ -17,7 +17,7 @@ npx create-repacked@latest
  */
 const config = {
   entry: "./src/index.tsx",
-  devServer: {
+  development: {
     open: true,
     port: 3000,
   },
@@ -41,9 +41,9 @@ module.exports = config;
   entry: "./src/index.tsx"
   ```
 
-## `devServer: object`
+## `development: object`
 
-The `devServer` configuration provides options for setting up the development server behavior.
+The `development` configuration provides options for setting up the development server behavior.
 
 - **Type**: `object`
 - **Properties**:
