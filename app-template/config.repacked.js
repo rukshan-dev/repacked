@@ -3,7 +3,7 @@
  */
 const config = {
   entry: "./src/index.tsx",
-  devServer: {
+  development: {
     open: true,
     port: 3000,
   },

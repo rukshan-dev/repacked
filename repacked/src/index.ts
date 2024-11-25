@@ -1,3 +1,3 @@
-import type { AppConfig as _AppConfig } from "./features/app-config/types";
+import type { ConsumerAppConfig } from "./features/app-config/types";
 
-export type AppConfig = Partial<_AppConfig>;
+export type AppConfig = ConsumerAppConfig;

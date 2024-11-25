@@ -42,7 +42,7 @@ const getWebpackConfig: (
     mode,
     cache: false,
     entry:
-      appConfig.apiServer?.enabled && isDevelopment
+      appConfig.server.enabled && isDevelopment
         ? ["webpack-hot-middleware/client?reload=true", cwd(appConfig.entry)]
         : cwd(appConfig.entry),
     devtool: "source-map",
@@ -83,9 +83,7 @@ const getWebpackConfig: (
       hints: false,
     },
     devServer: {
-      port: 3000,
       hot: true,
-      open: true,
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods":
@@ -93,7 +91,7 @@ const getWebpackConfig: (
         "Access-Control-Allow-Headers":
           "X-Requested-With, content-type, Authorization",
       },
-      ...appConfig.devServer,
+      ...appConfig.development,
     },
   };
   return appConfig.webpack(webpackConfig);

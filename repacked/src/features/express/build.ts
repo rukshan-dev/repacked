@@ -11,8 +11,8 @@ const build = async (mode: BuildMode, appConfig: AppConfig) => {
   const babelOptions = getBabelOptions(false);
   const buildOptions: Options = {
     entry: {
-      app: cwd(appConfig.apiServer?.entry as string),
-      runtime: path.resolve(__dirname, "./features/express/runtime.js"),
+      app: cwd(appConfig.server.entry as string),
+      index: path.resolve(__dirname, "./features/express/runtime.js"),
     },
     format: ["cjs"],
     dts: false,
