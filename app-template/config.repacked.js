@@ -5,7 +5,7 @@ const config = {
   entry: "./src/index.tsx",
   development: {
     open: true,
-    port: 4000,
+    port: 3000,
   },
   webpack: (config) => {
     return config;
