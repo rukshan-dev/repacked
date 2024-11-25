@@ -1,10 +1,9 @@
 import { webpack } from "webpack";
-import getAppConfig from "../app-config/getAppConfig";
 import getWebpackConfig from "./getWebpackConfig";
 import { BuildMode } from "./types";
+import { AppConfig } from "../app-config/types";
 
-export const build = async (mode: BuildMode) => {
-  const appConfig = await getAppConfig();
+export const build = async (mode: BuildMode, appConfig: AppConfig) => {
   const webpackConfig = await getWebpackConfig(mode, appConfig);
   webpack(
     webpackConfig,

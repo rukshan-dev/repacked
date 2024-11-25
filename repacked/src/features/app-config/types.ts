@@ -2,9 +2,14 @@ import type { moduleFederationPlugin } from "@module-federation/sdk";
 import { Configuration } from "webpack";
 import { Config } from "jest";
 
+export type OutputOptions = {
+  dir: string;
+};
+
 export type AppConfig = {
   appName: string;
   entry: string;
+  output: OutputOptions;
   devServer: Configuration["devServer"];
   apiServer?: {
     enabled: boolean;

@@ -16,6 +16,7 @@ const getWebpackConfig: (
   appConfig: AppConfig
 ) => Promise<Configuration> = async (mode, appConfig: AppConfig) => {
   const isDevelopment = mode === "development";
+  const outputDirectory = cwd(appConfig.output.dir);
   const plugins: Configuration["plugins"] = [];
   plugins.push(new HtmlWebpackPlugin({ template: cwd("./src/index.html") }));
   plugins.push(EnvVariablesPlugin(appConfig.envFilter));
@@ -27,7 +28,7 @@ const getWebpackConfig: (
       patterns: [
         {
           from: cwd("./public"),
-          to: cwd("dist"),
+          to: outputDirectory,
         },
       ],
     })
@@ -40,14 +41,15 @@ const getWebpackConfig: (
   const webpackConfig: Configuration = {
     mode,
     cache: false,
-    entry: appConfig.apiServer?.enabled
-      ? ["webpack-hot-middleware/client?reload=true", cwd(appConfig.entry)]
-      : cwd(appConfig.entry),
+    entry:
+      appConfig.apiServer?.enabled && isDevelopment
+        ? ["webpack-hot-middleware/client?reload=true", cwd(appConfig.entry)]
+        : cwd(appConfig.entry),
     devtool: "source-map",
     output: {
       uniqueName: appConfig.appName,
       publicPath: "auto",
-      path: cwd("dist"),
+      path: outputDirectory,
       filename: "js/[name].[fullhash].js",
       clean: true,
     },
