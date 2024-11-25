@@ -11,7 +11,7 @@ export default defineConfig([
     dts: true,
     outDir: "./dist",
     onSuccess: async () => {
-      await copyDirectory(cwd("../app-template"), cwd("dist", "templates"));
+      await copyDirectory(cwd("../templates"), cwd("dist", "templates"));
     },
   },
 ]);

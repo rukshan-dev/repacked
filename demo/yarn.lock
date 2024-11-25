@@ -4148,15 +4148,15 @@ __metadata:
   linkType: hard
 
 "create-repacked@file:../create-repacked/dist/::locator=test-project%40workspace%3A.":
-  version: 0.0.3-alpha
-  resolution: "create-repacked@file:../create-repacked/dist/#../create-repacked/dist/::hash=cb2863&locator=test-project%40workspace%3A."
+  version: 1.0.0
+  resolution: "create-repacked@file:../create-repacked/dist/#../create-repacked/dist/::hash=2758b4&locator=test-project%40workspace%3A."
   dependencies:
     chalk: "npm:4.1.2"
     prompts: "npm:2.4.2"
     validate-npm-package-name: "npm:6.0.0"
   bin:
     create-repacked: ./cli.js
-  checksum: 10c0/985df56e152089b1954637d7337984a52f3c9f74ee8c9dee273a1b0a100538ea6bc1b6c04b301c841332d3bea865d76b075dbfb996fe86788c4cc6ad945c5d98
+  checksum: 10c0/f199c27ae7a9cf75e6665ba3815c625a9e49fa22479089d33f4b57b9a66ddc3b2c7c2087ba3dbfb6d2a284ffdbd887b8c84c525ae705ddd237bdbc54f7b0fa11
   languageName: node
   linkType: hard
 
