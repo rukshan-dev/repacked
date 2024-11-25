@@ -9,6 +9,7 @@ import { AppConfig } from "../app-config/types";
 import { BuildMode } from "./types";
 import { EnvVariablesPlugin } from "./plugins/envVariables";
 import HtmlMFWebpackPlugin from "./plugins/htmlMFWebpackPlugin";
+import { getBabelOptions } from "../babel/babelOptions";
 
 const getWebpackConfig: (
   mode: BuildMode,
@@ -39,7 +40,9 @@ const getWebpackConfig: (
   const webpackConfig: Configuration = {
     mode,
     cache: false,
-    entry: cwd(appConfig.entry),
+    entry: appConfig.apiServer?.enabled
+      ? ["webpack-hot-middleware/client?reload=true", cwd(appConfig.entry)]
+      : cwd(appConfig.entry),
     devtool: "source-map",
     output: {
       uniqueName: appConfig.appName,
@@ -55,21 +58,7 @@ const getWebpackConfig: (
           test: /\.(js|ts)x?$/,
           use: {
             loader: "babel-loader",
-            options: {
-              plugins: isDevelopment
-                ? [require.resolve("react-refresh/babel")]
-                : [],
-              presets: [
-                "@babel/preset-env",
-                [
-                  "@babel/preset-react",
-                  {
-                    runtime: "automatic",
-                  },
-                ],
-                "@babel/preset-typescript",
-              ],
-            },
+            options: getBabelOptions(isDevelopment),
           },
           exclude: /node_modules/,
         },
