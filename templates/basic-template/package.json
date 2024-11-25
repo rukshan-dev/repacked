@@ -1,5 +1,10 @@
 {
   "name": "app-template",
+  "templateInfo": {
+    "name": "Basic",
+    "description": "Simple SPA React Application",
+    "order": 1
+  },
   "version": "1.0.0",
   "scripts": {
     "start": "repacked serve",

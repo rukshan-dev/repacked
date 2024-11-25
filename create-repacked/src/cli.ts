@@ -5,8 +5,10 @@ import cwd from "./utils/cwd";
 import path from "path";
 import createDefaultTemplate from "./template-scripts/createDefaultTemplate";
 import validatePackageName from "./actions/validatePackageName";
+import getTemplates from "./template-scripts/getTemplates";
 
 (async () => {
+  const templates = await getTemplates(path.join(__dirname, "templates"));
   const response = await prompts([
     {
       type: "text",
@@ -15,12 +17,23 @@ import validatePackageName from "./actions/validatePackageName";
       initial: "repacked-app",
       validate: (name) => validatePackageName(name),
     },
+    {
+      type: "select",
+      name: "template",
+      message: "Select template",
+      initial: 0,
+      choices: templates.map((template, index) => ({
+        value: index,
+        title: template.name,
+        description: template.description,
+      })),
+    },
   ]);
 
   const options: UserOptions = {
     name: response.name,
     directory: cwd(response.name),
-    templateDirectory: path.join(__dirname, "templates"),
+    templateDirectory: templates[response.template].path,
   };
   await createDefaultTemplate(options);
 })();
