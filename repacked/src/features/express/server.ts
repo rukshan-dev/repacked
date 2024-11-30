@@ -1,4 +1,4 @@
-import express, { Express } from "express";
+import express from "express";
 
 export const expressServer = () => {
   const app = express();

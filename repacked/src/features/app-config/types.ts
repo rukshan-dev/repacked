@@ -14,6 +14,18 @@ export type OutputOptions = {
   dir: string;
 };
 
+export type ClientOptions = {
+  enabled: boolean;
+  entry: string;
+  template: string;
+  envFilter: (key: string, value?: string) => boolean;
+};
+
+export type ServerOptions = {
+  enabled: boolean;
+  entry: string;
+};
+
 export type DevelopmentOptions = {
   port: number;
   open: boolean;
@@ -21,15 +33,11 @@ export type DevelopmentOptions = {
 
 export type AppConfig = {
   appName: string;
-  entry: string;
   output: OutputOptions;
   development: DevelopmentOptions;
-  server: {
-    enabled: boolean;
-    entry: string;
-  };
+  client: ClientOptions;
+  server: ServerOptions;
   moduleFederation?: moduleFederationPlugin.ModuleFederationPluginOptions;
-  envFilter: (key: string, value?: string) => boolean;
   webpack: (config: Configuration) => Configuration;
   jest: (config: Config) => Config;
 };

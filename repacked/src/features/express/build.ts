@@ -6,6 +6,7 @@ import cwd from "../../utils/cwd";
 import path from "path";
 import fs from "fs";
 import { getBabelOptions } from "../babel/babelOptions";
+import bundleStaticConfig from "./plugins/bundleStaticConfig";
 
 const build = async (mode: BuildMode, appConfig: AppConfig) => {
   const babelOptions = getBabelOptions(false);
@@ -14,11 +15,16 @@ const build = async (mode: BuildMode, appConfig: AppConfig) => {
       app: cwd(appConfig.server.entry as string),
       index: path.resolve(__dirname, "./features/express/runtime.js"),
     },
+    outDir: cwd(appConfig.output.dir),
     format: ["cjs"],
     dts: false,
     sourcemap: false,
     external: ["*"],
     minify: true,
+    loader: {
+      ".json": "json",
+    },
+    plugins: [bundleStaticConfig(appConfig)],
     esbuildPlugins: [
       {
         name: "babel",

@@ -18,6 +18,7 @@ const serveExpress = async (
 ) => {
   const babelOptions = getBabelOptions(true);
   const port = appConfig.development.port || 3000;
+  const clientEnabled = appConfig.client.enabled;
   require("@babel/register")({
     extensions: [".ts", ".js", ".tsx", ".jsx"],
     presets: babelOptions.presets,
@@ -26,18 +27,23 @@ const serveExpress = async (
       ...babelOptions.plugins,
     ],
   });
-  const { default: apiServerCallback } = await import(
+  const { default: externalApp } = await import(
     cwd(appConfig.server.entry as string)
   );
   const app = expressServer();
-  const devMiddleware = webpackDevMiddleware(compiler, {
-    publicPath: webpackConfig.output?.publicPath,
-    stats: { colors: true },
-  });
-  apiServerCallback(app);
-  app.use(history());
-  app.use(devMiddleware);
-  app.use(webpackHotMiddleware(compiler));
+
+  externalApp(app);
+
+  if (clientEnabled) {
+    app.use(history());
+    const devMiddleware = webpackDevMiddleware(compiler, {
+      publicPath: webpackConfig.output?.publicPath,
+      stats: { colors: true },
+    });
+    app.use(devMiddleware);
+    app.use(webpackHotMiddleware(compiler));
+  }
+
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
   });

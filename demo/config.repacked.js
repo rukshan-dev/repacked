@@ -2,10 +2,13 @@
  * @type {import('repacked').AppConfig}
  */
 const config = {
-  entry: "./src/index.tsx",
   development: {
     open: true,
     port: 4000,
+  },
+  client: {
+    entry: "./src/index.tsx",
+    template: "./src/index.html"
   },
   server: {
     enabled: true,

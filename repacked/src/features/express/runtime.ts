@@ -6,16 +6,28 @@ import yargs from "yargs";
 
 const serve = async (port: number) => {
   const appPath = "./app.js";
-  const publicAssets = path.join(__dirname, "client");
-  const clientApp = (await import(appPath)) as {
+  const configPath = "./config.json";
+  const config = (await import(configPath)) as { client: { enabled: boolean } };
+  const clientEnabled = config.client.enabled;
+
+  const externalApp = (await import(appPath)) as {
     default: (
       app: ReturnType<typeof expressServer>
     ) => ReturnType<typeof expressServer>;
   };
   const app = expressServer();
-  app.use(express.static(publicAssets));
-  clientApp.default(app);
-  app.use(history());
+
+  if (clientEnabled) {
+    const publicAssets = path.join(__dirname, "client");
+    app.use(express.static(publicAssets));
+  }
+
+  externalApp.default(app);
+
+  if (clientEnabled) {
+    app.use(history());
+  }
+
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
   });

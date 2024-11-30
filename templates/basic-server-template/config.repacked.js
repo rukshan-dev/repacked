@@ -2,7 +2,9 @@
  * @type {import('repacked').AppConfig}
  */
 const config = {
-  entry: "./src/client.tsx",
+  client: {
+    entry: "./src/client.tsx",
+  },
   server: {
     enabled: true,
     entry: "./src/server.ts",

@@ -9,19 +9,21 @@ import cwd from "../../utils/cwd";
 const build = async (mode: BuildMode) => {
   const appConfig = await getAppConfig();
   const serverEnabled = appConfig.server.enabled;
+  const clientEnabled = appConfig.client.enabled;
   const clientOutputPath = serverEnabled
     ? path.join(appConfig.output.dir, "client")
     : appConfig.output.dir;
 
   await removeFolder(cwd(appConfig.output.dir));
 
-  await buildClient(mode, {
-    ...appConfig,
-    output: {
-      ...appConfig.output,
-      dir: clientOutputPath,
-    },
-  });
+  clientEnabled &&
+    (await buildClient(mode, {
+      ...appConfig,
+      output: {
+        ...appConfig.output,
+        dir: clientOutputPath,
+      },
+    }));
 
   serverEnabled && (await buildServer(mode, appConfig));
 };

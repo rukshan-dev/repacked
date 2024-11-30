@@ -18,8 +18,10 @@ const getWebpackConfig: (
   const isDevelopment = mode === "development";
   const outputDirectory = cwd(appConfig.output.dir);
   const plugins: Configuration["plugins"] = [];
-  plugins.push(new HtmlWebpackPlugin({ template: cwd("./src/index.html") }));
-  plugins.push(EnvVariablesPlugin(appConfig.envFilter));
+  plugins.push(
+    new HtmlWebpackPlugin({ template: cwd(appConfig.client.template) })
+  );
+  plugins.push(EnvVariablesPlugin(appConfig.client.envFilter));
   isDevelopment && plugins.push(new HotModuleReplacementPlugin());
   isDevelopment &&
     plugins.push(new ReactRefreshWebpackPlugin({ library: appConfig.appName }));
@@ -43,8 +45,11 @@ const getWebpackConfig: (
     cache: false,
     entry:
       appConfig.server.enabled && isDevelopment
-        ? ["webpack-hot-middleware/client?reload=true", cwd(appConfig.entry)]
-        : cwd(appConfig.entry),
+        ? [
+            "webpack-hot-middleware/client?reload=true",
+            cwd(appConfig.client.entry),
+          ]
+        : cwd(appConfig.client.entry),
     devtool: "source-map",
     output: {
       uniqueName: appConfig.appName,

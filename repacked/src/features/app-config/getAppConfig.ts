@@ -3,19 +3,23 @@ import { AppConfig, ConsumerAppConfig } from "./types";
 
 const defaultAppConfig: AppConfig = {
   appName: "app_name",
-  entry: "./src/index.tsx",
   output: {
     dir: "./dist",
   },
+  client: {
+    enabled: true,
+    template: "./src/index.html",
+    entry: "./src/index.tsx",
+    envFilter: (key) => key.startsWith("PUBLIC_"),
+  },
   server: {
     enabled: false,
-    entry: "",
+    entry: "./src/server.ts",
   },
   development: {
     port: 3000,
     open: true,
   },
-  envFilter: (key) => key.startsWith("PUBLIC_"),
   webpack: (config) => config,
   jest: (config) => config,
 };
@@ -30,6 +34,10 @@ const getAppConfig = async () => {
       output: {
         ...defaultAppConfig.output,
         ...(config.output ?? {}),
+      },
+      client: {
+        ...defaultAppConfig.client,
+        ...(config.client || {}),
       },
       server: {
         ...defaultAppConfig.server,
