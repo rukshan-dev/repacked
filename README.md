@@ -8,18 +8,28 @@ To initialize a new project with `repacked`, you can use the following command:
 npx create-repacked@latest
 ```
 
-## API Documentation
+## Example Configuration
 
-```typescript
-// filename: config.repacked.js
+```js
 /**
  * @type {import('repacked').AppConfig}
  */
 const config = {
-  entry: "./src/index.tsx",
   development: {
-    open: true,
-    port: 3000,
+    open: true, // default is true
+    port: 4000, // default is 3000
+  },
+  output: {
+    dir: "./dist", // default is ./dist
+  },
+  client: {
+    enabled: true, // default is true
+    entry: "./src/index.tsx", // default is ./src/index.tsx
+    template: "./src/index.html", // default is ./src/index.html
+  },
+  server: {
+    enabled: true, // default is false
+    entry: "./src/server.tsx", // default is ./src/server.ts
   },
   webpack: (config) => {
     return config;
@@ -30,72 +40,91 @@ const config = {
 };
 
 module.exports = config;
+
 ```
 
-## `entry: string`
+## API Documentation
 
-- **Type**: `string`
-- **Description**: The entry point for your application. This is the main file that Webpack will start bundling from. Typically, this is the root JavaScript or TypeScript file of your React app.
-- **Example**:
-  ```js
-  entry: "./src/index.tsx"
-  ```
+# Repacked Configuration Options
 
-## `development: object`
-
-The `development` configuration provides options for setting up the development server behavior.
-
-- **Type**: `object`
-- **Properties**:
-  - `open: boolean`
-    - **Type**: `boolean`
-    - **Description**: Determines whether the browser should automatically open when the development server starts.
-    - **Default**: `false`
-    - **Example**:
-      ```js
-      open: true
-      ```
-  - `port: number`
-    - **Type**: `number`
-    - **Description**: Specifies the port on which the development server will run.
-    - **Default**: `3000`
-    - **Example**:
-      ```js
-      port: 3000
-      ```
-
-## `webpack: function`
-
-This function allows you to modify the Webpack configuration that is passed to it.
-
-- **Type**: `(config: WebpackConfiguration) => WebpackConfiguration`
-- **Parameters**:
-  - `config`: The Webpack configuration object that `repacked` generates by default.
-- **Return**: The modified Webpack configuration.
-- **Example**:
-  ```js
-  webpack: (config) => {
-    // Modify or extend the default Webpack config here
-    return config;
-  }
-  ```
-
-## `jest: function`
-
-This function allows you to modify the Jest configuration used for running tests.
-
-- **Type**: `(config: JestConfiguration) => JestConfiguration`
-- **Parameters**:
-  - `config`: The Jest configuration object that `repacked` generates by default.
-- **Return**: The modified Jest configuration.
-- **Example**:
-  ```js
-  jest: (config) => {
-    // Modify or extend the default Jest config here
-    return config;
-  }
-  ```
+This document outlines the configuration options for customizing your Repacked project. All options are optional, and default values will be used if not specified.
 
 ---
 
-This API provides flexibility for customizing the behavior of your build process, including the Webpack bundling and Jest testing setups.
+## development
+
+Settings related to the development server.
+
+| Option      | Type    | Default | Description                                  |
+|-------------|---------|---------|----------------------------------------------|
+| `open`      | boolean | `true`  | Automatically opens the browser on start.    |
+| `port`      | number  | `3000`  | The port number for the development server.  |
+
+---
+
+## output
+
+Controls the output directory for the build.
+
+| Option | Type   | Default  | Description                     |
+|--------|--------|----------|---------------------------------|
+| `dir`  | string | `./dist` | Directory to output build files.|
+
+---
+
+## client
+
+Settings for the client-side application.
+
+| Option     | Type    | Default                | Description                                         |
+|------------|---------|------------------------|-----------------------------------------------------|
+| `enabled`  | boolean | `true`                 | Whether to enable the client build.                 |
+| `entry`    | string  | `./src/index.tsx`      | Path to the client entry file.                      |
+| `template` | string  | `./src/index.html`     | Path to the HTML template used for the client app.  |
+
+---
+
+## server
+
+Settings for the server-side application.
+
+| Option     | Type    | Default            | Description                                      |
+|------------|---------|--------------------|--------------------------------------------------|
+| `enabled`  | boolean | `false`            | Whether to enable the server-side build.         |
+| `entry`    | string  | `./src/server.ts`  | Path to the server entry file.                   |
+
+---
+
+## webpack
+
+A function to customize the Webpack configuration.
+
+| Option    | Type     | Description                          |
+|-----------|----------|--------------------------------------|
+| `config`  | function | A function that takes the Webpack configuration and returns a modified version.|
+
+Example:
+```js
+webpack: (config) => {
+  // Modify the Webpack config here
+  return config;
+}
+```
+
+---
+
+## jest
+
+A function to customize the Jest configuration.
+
+| Option    | Type     | Description                          |
+|-----------|----------|--------------------------------------|
+| `config`  | function | A function that takes the Jest configuration and returns a modified version.|
+
+Example:
+```js
+jest: (config) => {
+  // Modify the Jest config here
+  return config;
+}
+```
