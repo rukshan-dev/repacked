@@ -1,10 +1,10 @@
 import { webpack } from "webpack";
-import getWebpackConfig from "./getWebpackConfig";
 import { BuildMode } from "./types";
 import { AppConfig } from "../app-config/types";
+import getClientWebpackConfig from "./getClientWebpackConfig";
 
 export const build = async (mode: BuildMode, appConfig: AppConfig) => {
-  const webpackConfig = await getWebpackConfig(mode, appConfig);
+  const webpackConfig = await getClientWebpackConfig(mode, appConfig);
   webpack(
     webpackConfig,
     (err: (Error & { details?: unknown }) | null, stats) => {

@@ -7,12 +7,40 @@ import path from "path";
 import fs from "fs";
 import { getBabelOptions } from "../babel/babelOptions";
 import bundleStaticConfig from "./plugins/bundleStaticConfig";
+import { webpack } from "webpack";
+import getServerWebpackConfig from "./getServerWebpackConfig";
 
-const build = async (mode: BuildMode, appConfig: AppConfig) => {
+export const buildServer = async (mode: BuildMode, appConfig: AppConfig) => {
+  const webpackConfig = await getServerWebpackConfig(mode, appConfig, {
+    clean: false,
+  });
+  webpack(
+    webpackConfig,
+    (err: (Error & { details?: unknown }) | null, stats) => {
+      if (err) {
+        console.error(err.stack || err);
+        if (err.details) {
+          console.error(err.details);
+        }
+        process.exit(1);
+      }
+      const statsData = stats?.toJson();
+      if (stats?.hasErrors()) {
+        console.error(statsData?.errors);
+        process.exit(1);
+      }
+      if (stats?.hasWarnings()) {
+        console.warn(statsData?.warnings);
+      }
+    }
+  );
+};
+
+//TODO: move runtime build to webpack
+export const buildRuntime = async (mode: BuildMode, appConfig: AppConfig) => {
   const babelOptions = getBabelOptions(false);
   const buildOptions: Options = {
     entry: {
-      app: cwd(appConfig.server.entry as string),
       index: path.resolve(__dirname, "./features/express/runtime.js"),
     },
     outDir: cwd(appConfig.output.dir),
@@ -52,5 +80,3 @@ const build = async (mode: BuildMode, appConfig: AppConfig) => {
 
   await tsupBuild(buildOptions);
 };
-
-export default build;
