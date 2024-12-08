@@ -7,12 +7,22 @@ import path from "path";
 import fs from "fs";
 import { getBabelOptions } from "../babel/babelOptions";
 import bundleStaticConfig from "./plugins/bundleStaticConfig";
+import { webpack } from "webpack";
+import getServerWebpackConfig from "./getServerWebpackConfig";
+import { logWebpackErrors } from "../webpack/utils";
 
-const build = async (mode: BuildMode, appConfig: AppConfig) => {
+export const buildServer = async (mode: BuildMode, appConfig: AppConfig) => {
+  const webpackConfig = await getServerWebpackConfig(mode, appConfig, {
+    clean: false,
+  });
+  webpack(webpackConfig, logWebpackErrors);
+};
+
+//TODO: move runtime build to webpack
+export const buildRuntime = async (mode: BuildMode, appConfig: AppConfig) => {
   const babelOptions = getBabelOptions(false);
   const buildOptions: Options = {
     entry: {
-      app: cwd(appConfig.server.entry as string),
       index: path.resolve(__dirname, "./features/express/runtime.js"),
     },
     outDir: cwd(appConfig.output.dir),
@@ -52,5 +62,3 @@ const build = async (mode: BuildMode, appConfig: AppConfig) => {
 
   await tsupBuild(buildOptions);
 };
-
-export default build;

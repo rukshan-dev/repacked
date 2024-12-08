@@ -18,6 +18,7 @@ export type ClientOptions = {
   enabled: boolean;
   entry: string;
   template: string;
+  publicPath: string;
   envFilter: (key: string, value?: string) => boolean;
 };
 
@@ -38,7 +39,10 @@ export type AppConfig = {
   client: ClientOptions;
   server: ServerOptions;
   moduleFederation?: moduleFederationPlugin.ModuleFederationPluginOptions;
-  webpack: (config: Configuration) => Configuration;
+  webpack: (
+    config: Configuration,
+    target: "client" | "server"
+  ) => Configuration;
   jest: (config: Config) => Config;
 };
 

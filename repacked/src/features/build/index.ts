@@ -1,7 +1,7 @@
 import getAppConfig from "../app-config/getAppConfig";
 import { BuildMode } from "../webpack/types";
 import { build as buildClient } from "../webpack/webpack";
-import { default as buildServer } from "../express/build";
+import { buildServer, buildRuntime } from "../express/build";
 import path from "path";
 import removeFolder from "./utils/removeFolder";
 import cwd from "../../utils/cwd";
@@ -25,7 +25,10 @@ const build = async (mode: BuildMode) => {
       },
     }));
 
-  serverEnabled && (await buildServer(mode, appConfig));
+  if (serverEnabled) {
+    await buildRuntime(mode, appConfig);
+    await buildServer(mode, appConfig);
+  }
 };
 
 export default build;

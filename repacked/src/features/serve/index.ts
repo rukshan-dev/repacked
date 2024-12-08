@@ -1,59 +1,88 @@
-import { Compiler, Configuration, webpack } from "webpack";
+import { webpack } from "webpack";
 import getAppConfig from "../app-config/getAppConfig";
 import WebpackDevServer from "webpack-dev-server";
 import { expressServer } from "../express/server";
-import cwd from "../../utils/cwd";
 import webpackHotMiddleware from "webpack-hot-middleware";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import { BuildMode } from "../webpack/types";
 import getWebpackConfig from "../webpack/getWebpackConfig";
 import { AppConfig } from "../app-config/types";
-import { getBabelOptions } from "../babel/babelOptions";
 import history from "connect-history-api-fallback";
+import { Router } from "express";
+import path from "path";
+import getServerWebpackConfig from "../express/getServerWebpackConfig";
+import getClientWebpackConfig from "../webpack/getClientWebpackConfig";
+import { logWebpackErrors } from "../webpack/utils";
 
-const serveExpress = async (
-  appConfig: AppConfig,
-  webpackConfig: Configuration,
-  compiler: Compiler
-) => {
-  const babelOptions = getBabelOptions(true);
+const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
+  const clientWebpackConfig = await getClientWebpackConfig(mode, appConfig, {});
+  clientWebpackConfig.output!.publicPath = appConfig.client.publicPath;
+  const serverWebpackConfig = await getServerWebpackConfig(mode, appConfig, {
+    watch: true,
+  });
+  const clientCompiler = webpack(clientWebpackConfig);
   const port = appConfig.development.port || 3000;
   const clientEnabled = appConfig.client.enabled;
-  require("@babel/register")({
-    extensions: [".ts", ".js", ".tsx", ".jsx"],
-    presets: babelOptions.presets,
-    plugins: [
-      "@babel/plugin-transform-modules-commonjs",
-      ...babelOptions.plugins,
-    ],
-  });
-  const { default: externalApp } = await import(
-    cwd(appConfig.server.entry as string)
-  );
   const app = expressServer();
+  let clientRouter: Router;
 
-  externalApp(app);
+  const resetRoutes = async (entry: string) => {
+    clientRouter = Router();
+    delete require.cache[require.resolve(entry)];
+    const clientApp = await import(entry);
+    const clientAppCallback = clientApp.default;
+    typeof clientAppCallback === "function" &&
+      clientAppCallback(clientRouter, app);
+    app.use(clientRouter);
+  };
+
+  app.use(function dynamicRouter(req, res, next) {
+    clientRouter(req, res, next);
+  });
 
   if (clientEnabled) {
     app.use(history());
-    const devMiddleware = webpackDevMiddleware(compiler, {
-      publicPath: webpackConfig.output?.publicPath,
-      stats: { colors: true },
+    const devMiddleware = webpackDevMiddleware(clientCompiler, {
+      publicPath: clientWebpackConfig.output?.publicPath,
     });
     app.use(devMiddleware);
-    app.use(webpackHotMiddleware(compiler));
+    app.use(webpackHotMiddleware(clientCompiler));
   }
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
   });
+
+  const serverCompiler = webpack(serverWebpackConfig, logWebpackErrors);
+
+  serverCompiler.hooks.done.tap("ResetRoutes", async (stats) => {
+    const info = stats?.toJson({
+      assets: true,
+    });
+    info?.assets?.forEach(async (asset) => {
+      if (!stats?.hasErrors()) {
+        delete require.cache[
+          require.resolve(
+            path.join(
+              serverWebpackConfig.output?.path as string,
+              asset.name as string
+            )
+          )
+        ];
+        await resetRoutes(
+          path.join(
+            serverWebpackConfig.output?.path as string,
+            serverWebpackConfig.output?.filename as string
+          )
+        );
+      }
+    });
+  });
 };
 
-const serveWebpack = async (
-  appConfig: AppConfig,
-  webpackConfig: Configuration,
-  compiler: Compiler
-) => {
+const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
+  const webpackConfig = await getWebpackConfig(mode, appConfig);
+  const compiler = webpack(webpackConfig);
   const server = new WebpackDevServer(webpackConfig.devServer, compiler);
   const runServer = async () => {
     console.log("Starting server...");
@@ -65,12 +94,10 @@ const serveWebpack = async (
 
 const serve = async (mode: BuildMode) => {
   const appConfig = await getAppConfig();
-  const webpackConfig = await getWebpackConfig(mode, appConfig);
-  const compiler = webpack(webpackConfig);
   if (appConfig.server.enabled) {
-    serveExpress(appConfig, webpackConfig, compiler);
+    serveServer(mode, appConfig);
   } else {
-    serveWebpack(appConfig, webpackConfig, compiler);
+    serveClientOnly(mode, appConfig);
   }
 };
 
