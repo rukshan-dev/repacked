@@ -55,7 +55,7 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
       app.use(devMiddleware);
       app.use(webpackHotMiddleware(clientCompiler));
     }
-    openTab(`http://localhost:${port}`);
+    appConfig.development.open && openTab(`http://localhost:${port}`);
   };
 
   app.listen(port, () => {
