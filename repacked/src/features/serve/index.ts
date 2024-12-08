@@ -5,7 +5,6 @@ import { expressServer } from "../express/server";
 import webpackHotMiddleware from "webpack-hot-middleware";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import { BuildMode } from "../webpack/types";
-import getWebpackConfig from "../webpack/getWebpackConfig";
 import { AppConfig } from "../app-config/types";
 import history from "connect-history-api-fallback";
 import { Router } from "express";
@@ -34,7 +33,13 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
     opened = true;
   };
 
-  const resetRoutes = async (entry: string) => {
+  let initiated = false;
+  const initServerApp = async (entry: string) => {
+    //Temporary disable reinitiation on changes. (need to restart server instead applying changes)
+    if (initiated) {
+      return;
+    }
+    initiated = true;
     clientRouter = Router();
     const clientApp = await import(`${entry}?t=${Date.now()}`);
     const clientAppCallback = clientApp.default?.default || clientApp.default;
@@ -70,7 +75,7 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
     });
     info?.assets?.forEach(async (asset) => {
       if (!stats?.hasErrors()) {
-        await resetRoutes(
+        await initServerApp(
           path.join(
             serverWebpackConfig.output?.path as string,
             serverWebpackConfig.output?.filename as string
