@@ -3,11 +3,11 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "module": "ES2020",
-    "target": "ES5",
+    "target": "ESNext",
     "jsx": "react-jsx",
     "allowJs": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "checkJs": true,
+    "checkJs": true
   }
 }
