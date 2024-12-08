@@ -14,8 +14,9 @@ const getServerWebpackConfig = async (
     override: (config) => {
       config.target = "node";
       config.entry = cwd(appConfig.server.entry);
-      config.output!.libraryTarget = "commonjs";
+      config.output!.libraryTarget = "commonjs2";
       config.output!.filename = "app.js";
+      config.output!.publicPath = appConfig.client.publicPath;
       delete config.devServer;
       return config;
     },

@@ -8225,7 +8225,7 @@ __metadata:
 
 "repacked@file:../repacked/dist/::locator=test-project%40workspace%3A.":
   version: 0.2.1
-  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=f9db65&locator=test-project%40workspace%3A."
+  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=0d1d9c&locator=test-project%40workspace%3A."
   dependencies:
     "@babel/core": "npm:7.26.0"
     "@babel/plugin-transform-modules-commonjs": "npm:7.25.9"
@@ -8262,7 +8262,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     repacked: ./cli.js
-  checksum: 10c0/ab6f47619ad4610abfbcfae67ea1eb8005fb2d78558356b3d9e22a4ec6dcf8eed9a17fc556a2935f0a0d788fe46f1c5992e8b7224f1aae27c78a6f79718bb765
+  checksum: 10c0/8f2cb3a78085017f761701b704f07f3f290fb97c0ce39105bfe095a852ca4e1cca79d42fc85a9c303f6edfddeda7eb158cb6c822f35df15ff20447917780129b
   languageName: node
   linkType: hard
 

@@ -57,7 +57,17 @@ const getWebpackConfig: (
         {
           test: /\.(png|svg|jpg|gif)$/,
           exclude: /node_modules/,
-          use: ["file-loader"],
+          use: [
+            isServer
+              ? {
+                  loader: "file-loader",
+                  options: {
+                    emitFile: false,
+                    publicPath: appConfig.client.publicPath,
+                  },
+                }
+              : "file-loader",
+          ],
         },
       ],
     },

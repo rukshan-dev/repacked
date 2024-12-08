@@ -18,6 +18,7 @@ export type ClientOptions = {
   enabled: boolean;
   entry: string;
   template: string;
+  publicPath: string;
   envFilter: (key: string, value?: string) => boolean;
 };
 

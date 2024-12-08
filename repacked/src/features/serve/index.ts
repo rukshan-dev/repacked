@@ -12,9 +12,11 @@ import { Router } from "express";
 import path from "path";
 import getServerWebpackConfig from "../express/getServerWebpackConfig";
 import getClientWebpackConfig from "../webpack/getClientWebpackConfig";
+import { logWebpackErrors } from "../webpack/utils";
 
 const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
   const clientWebpackConfig = await getClientWebpackConfig(mode, appConfig, {});
+  clientWebpackConfig.output!.publicPath = appConfig.client.publicPath;
   const serverWebpackConfig = await getServerWebpackConfig(mode, appConfig, {
     watch: true,
   });
@@ -28,7 +30,9 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
     clientRouter = Router();
     delete require.cache[require.resolve(entry)];
     const clientApp = await import(entry);
-    clientApp.default(clientRouter, app);
+    const clientAppCallback = clientApp.default;
+    typeof clientAppCallback === "function" &&
+      clientAppCallback(clientRouter, app);
     app.use(clientRouter);
   };
 
@@ -49,9 +53,7 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
     console.log(`Server is running at http://localhost:${port}`);
   });
 
-  const serverCompiler = webpack(serverWebpackConfig, (err, stats) => {
-    //Log compilation errors
-  });
+  const serverCompiler = webpack(serverWebpackConfig, logWebpackErrors);
 
   serverCompiler.hooks.done.tap("ResetRoutes", async (stats) => {
     const info = stats?.toJson({
@@ -59,10 +61,18 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
     });
     info?.assets?.forEach(async (asset) => {
       if (!stats?.hasErrors()) {
+        delete require.cache[
+          require.resolve(
+            path.join(
+              serverWebpackConfig.output?.path as string,
+              asset.name as string
+            )
+          )
+        ];
         await resetRoutes(
           path.join(
             serverWebpackConfig.output?.path as string,
-            asset.name as string
+            serverWebpackConfig.output?.filename as string
           )
         );
       }

@@ -10,6 +10,7 @@ const defaultAppConfig: AppConfig = {
     enabled: true,
     template: "./src/index.html",
     entry: "./src/index.tsx",
+    publicPath: "/",
     envFilter: (key) => key.startsWith("PUBLIC_"),
   },
   server: {
