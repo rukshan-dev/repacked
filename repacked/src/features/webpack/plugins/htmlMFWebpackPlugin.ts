@@ -11,8 +11,11 @@ class HtmlMFWebpackPlugin {
         HtmlWebpackPlugin.getCompilationHooks(
           compilation
         ).alterAssetTags.tapAsync("HtmlMFWebpackPlugin", (data, cb) => {
+          const entryFile = `${
+            data.publicPath.toLowerCase() === "auto" ? "" : data.publicPath
+          }${this.entryFile}`;
           data.assetTags.scripts = data.assetTags.scripts.filter(
-            (script) => script.attributes.src !== this.entryFile
+            (script) => script.attributes.src !== entryFile
           );
           cb(null, data);
         });

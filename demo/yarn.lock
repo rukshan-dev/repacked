@@ -7503,7 +7503,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:^10.0.3":
+"open@npm:10.1.0, open@npm:^10.0.3":
   version: 10.1.0
   resolution: "open@npm:10.1.0"
   dependencies:
@@ -8224,8 +8224,8 @@ __metadata:
   linkType: hard
 
 "repacked@file:../repacked/dist/::locator=test-project%40workspace%3A.":
-  version: 0.2.1
-  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=0d1d9c&locator=test-project%40workspace%3A."
+  version: 0.3.0
+  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=ca77d5&locator=test-project%40workspace%3A."
   dependencies:
     "@babel/core": "npm:7.26.0"
     "@babel/plugin-transform-modules-commonjs": "npm:7.25.9"
@@ -8250,6 +8250,7 @@ __metadata:
     html-webpack-plugin: "npm:5.6.3"
     jest: "npm:29.7.0"
     jest-environment-jsdom: "npm:29.7.0"
+    open: "npm:10.1.0"
     react-refresh: "npm:0.14.2"
     style-loader: "npm:4.0.0"
     ts-loader: "npm:^9.5.1"
@@ -8262,7 +8263,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     repacked: ./cli.js
-  checksum: 10c0/8f2cb3a78085017f761701b704f07f3f290fb97c0ce39105bfe095a852ca4e1cca79d42fc85a9c303f6edfddeda7eb158cb6c822f35df15ff20447917780129b
+  checksum: 10c0/eee7e06f30224c4fd26bebaa01d18f0d6f81dd05197a3c648e931d491d056ce510f90cb048a8805c02622e36010135a2100bdd811172a2dcf0a749131eeb2bf4
   languageName: node
   linkType: hard
 

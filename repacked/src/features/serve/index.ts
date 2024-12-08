@@ -26,11 +26,18 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
   const app = expressServer();
   let clientRouter: Router;
 
+  let opened = false;
+  const shouldOpen = () => !opened && appConfig.development.open;
+  const openDevApp = async (url: string) => {
+    const open = (await import("open")).default;
+    await open(url);
+    opened = true;
+  };
+
   const resetRoutes = async (entry: string) => {
     clientRouter = Router();
-    delete require.cache[require.resolve(entry)];
-    const clientApp = await import(entry);
-    const clientAppCallback = clientApp.default;
+    const clientApp = await import(`${entry}?t=${Date.now()}`);
+    const clientAppCallback = clientApp.default?.default || clientApp.default;
     typeof clientAppCallback === "function" &&
       clientAppCallback(clientRouter, app);
     app.use(clientRouter);
@@ -48,7 +55,6 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
     app.use(devMiddleware);
     app.use(webpackHotMiddleware(clientCompiler));
   }
-
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
   });
@@ -56,19 +62,14 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
   const serverCompiler = webpack(serverWebpackConfig, logWebpackErrors);
 
   serverCompiler.hooks.done.tap("ResetRoutes", async (stats) => {
+    if (shouldOpen()) {
+      openDevApp(`http://localhost:${port}`);
+    }
     const info = stats?.toJson({
       assets: true,
     });
     info?.assets?.forEach(async (asset) => {
       if (!stats?.hasErrors()) {
-        delete require.cache[
-          require.resolve(
-            path.join(
-              serverWebpackConfig.output?.path as string,
-              asset.name as string
-            )
-          )
-        ];
         await resetRoutes(
           path.join(
             serverWebpackConfig.output?.path as string,
@@ -81,7 +82,7 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
 };
 
 const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
-  const webpackConfig = await getWebpackConfig(mode, appConfig);
+  const webpackConfig = await getClientWebpackConfig(mode, appConfig);
   const compiler = webpack(webpackConfig);
   const server = new WebpackDevServer(webpackConfig.devServer, compiler);
   const runServer = async () => {
