@@ -7,7 +7,6 @@ import webpackDevMiddleware from "webpack-dev-middleware";
 import { BuildMode } from "../webpack/types";
 import { AppConfig } from "../app-config/types";
 import history from "connect-history-api-fallback";
-import { Router } from "express";
 import path from "path";
 import getServerWebpackConfig from "../express/getServerWebpackConfig";
 import getClientWebpackConfig from "../webpack/getClientWebpackConfig";
@@ -42,18 +41,22 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
     serverWebpackConfig.output?.path as string,
     serverWebpackConfig.output?.filename as string
   );
-  const clientApp = await import(appEntry);
-  const clientAppCallback = clientApp.default?.default || clientApp.default;
-  typeof clientAppCallback === "function" && clientAppCallback(app);
 
-  if (clientEnabled) {
-    app.use(history());
-    const devMiddleware = webpackDevMiddleware(clientCompiler, {
-      publicPath: clientWebpackConfig.output?.publicPath,
-    });
-    app.use(devMiddleware);
-    app.use(webpackHotMiddleware(clientCompiler));
-  }
+  const bindRoutes = async () => {
+    const clientApp = await import(appEntry);
+    const clientAppCallback = clientApp.default?.default || clientApp.default;
+    typeof clientAppCallback === "function" && clientAppCallback(app);
+
+    if (clientEnabled) {
+      app.use(history());
+      const devMiddleware = webpackDevMiddleware(clientCompiler, {
+        publicPath: clientWebpackConfig.output?.publicPath,
+      });
+      app.use(devMiddleware);
+      app.use(webpackHotMiddleware(clientCompiler));
+    }
+    openTab(`http://localhost:${port}`);
+  };
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
@@ -62,12 +65,11 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
   const serverCompiler = webpack(serverWebpackConfig, logWebpackErrors);
 
   let watchInitiated = false;
-  serverCompiler.hooks.done.tap("ServerRestartRequest", async (stats) => {
+  serverCompiler.hooks.done.tap("OnServerCompiled", async (stats) => {
+    bindRoutes();
     watchInitiated && process.send?.(ChildProcessEvents.Reload);
     watchInitiated = true;
   });
-
-  openTab(`http://localhost:${port}`);
 };
 
 const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
