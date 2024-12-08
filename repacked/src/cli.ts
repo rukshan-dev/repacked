@@ -1,55 +1,35 @@
 #!/usr/bin/env node
-import yargs from "yargs";
-import { hideBin } from "yargs/helpers";
-import build from "./features/build";
-import { BuildMode } from "./features/webpack/types";
-import "dotenv/config";
-import { runTest } from "./features/test/test";
-import serve from "./features/serve";
+import { ChildProcess, fork } from "child_process";
+import path from "path";
+import { ChildProcessEvents } from "./types";
 
-const exec = () =>
-  yargs(hideBin(process.argv))
-    .command(
-      "serve",
-      "start the server",
-      (yargs) => {
-        return yargs.option("mode", {
-          describe: "serve mode",
-          default: "development",
-          choices: ["production", "development"],
-        });
-      },
-      (argv) => {
-        serve(argv.mode as BuildMode);
-      }
-    )
-    .command(
-      "build",
-      "build the app",
-      (yargs) => {
-        return yargs.option("mode", {
-          describe: "build mode",
-          default: "production",
-          choices: ["production", "development"],
-        });
-      },
-      (argv) => {
-        build(argv.mode as BuildMode);
-      }
-    )
-    .command(
-      "test",
-      "test the app",
-      (yargs) => {
-        return yargs;
-      },
-      (argv) => {
-        const jestArgv = process.argv.slice(2);
-        runTest(jestArgv);
-      }
-    )
-    .strictCommands()
-    .demandCommand(1)
-    .parse();
+process.argv.splice(0, 2);
+const programPath = path.join(__dirname, "program.js");
 
-exec();
+let child: ChildProcess;
+let restarted = false;
+
+const program = () => {
+  child = fork(programPath, process.argv);
+
+  child.on("message", (message) => {
+    if (message === ChildProcessEvents.Reload) {
+      child.kill();
+      program();
+      restarted = true;
+      return;
+    }
+    if (message === ChildProcessEvents.ShouldOpenTab) {
+      !restarted && child.send(ChildProcessEvents.OpenTab);
+    }
+  });
+
+  child.on("exit", (code) => {
+    if (code === null) {
+      return;
+    }
+    process.exit(code);
+  });
+};
+
+program();

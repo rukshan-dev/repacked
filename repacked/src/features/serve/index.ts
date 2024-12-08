@@ -12,6 +12,20 @@ import path from "path";
 import getServerWebpackConfig from "../express/getServerWebpackConfig";
 import getClientWebpackConfig from "../webpack/getClientWebpackConfig";
 import { logWebpackErrors } from "../webpack/utils";
+import { ChildProcessEvents } from "../../types";
+
+const openTab = (url: string) => {
+  process.send?.(ChildProcessEvents.ShouldOpenTab);
+  process.on("message", (message) => {
+    if (message === ChildProcessEvents.OpenTab) {
+      const openDevApp = async (url: string) => {
+        const open = (await import("open")).default;
+        await open(url);
+      };
+      openDevApp(url);
+    }
+  });
+};
 
 const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
   const clientWebpackConfig = await getClientWebpackConfig(mode, appConfig, {});
@@ -23,34 +37,14 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
   const port = appConfig.development.port || 3000;
   const clientEnabled = appConfig.client.enabled;
   const app = expressServer();
-  let clientRouter: Router;
 
-  let opened = false;
-  const shouldOpen = () => !opened && appConfig.development.open;
-  const openDevApp = async (url: string) => {
-    const open = (await import("open")).default;
-    await open(url);
-    opened = true;
-  };
-
-  let initiated = false;
-  const initServerApp = async (entry: string) => {
-    //Temporary disable reinitiation on changes. (need to restart server instead applying changes)
-    if (initiated) {
-      return;
-    }
-    initiated = true;
-    clientRouter = Router();
-    const clientApp = await import(`${entry}?t=${Date.now()}`);
-    const clientAppCallback = clientApp.default?.default || clientApp.default;
-    typeof clientAppCallback === "function" &&
-      clientAppCallback(clientRouter, app);
-    app.use(clientRouter);
-  };
-
-  app.use(function dynamicRouter(req, res, next) {
-    clientRouter(req, res, next);
-  });
+  const appEntry = path.join(
+    serverWebpackConfig.output?.path as string,
+    serverWebpackConfig.output?.filename as string
+  );
+  const clientApp = await import(appEntry);
+  const clientAppCallback = clientApp.default?.default || clientApp.default;
+  typeof clientAppCallback === "function" && clientAppCallback(app);
 
   if (clientEnabled) {
     app.use(history());
@@ -60,30 +54,20 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
     app.use(devMiddleware);
     app.use(webpackHotMiddleware(clientCompiler));
   }
+
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
   });
 
   const serverCompiler = webpack(serverWebpackConfig, logWebpackErrors);
 
-  serverCompiler.hooks.done.tap("ResetRoutes", async (stats) => {
-    if (shouldOpen()) {
-      openDevApp(`http://localhost:${port}`);
-    }
-    const info = stats?.toJson({
-      assets: true,
-    });
-    info?.assets?.forEach(async (asset) => {
-      if (!stats?.hasErrors()) {
-        await initServerApp(
-          path.join(
-            serverWebpackConfig.output?.path as string,
-            serverWebpackConfig.output?.filename as string
-          )
-        );
-      }
-    });
+  let watchInitiated = false;
+  serverCompiler.hooks.done.tap("ServerRestartRequest", async (stats) => {
+    watchInitiated && process.send?.(ChildProcessEvents.Reload);
+    watchInitiated = true;
   });
+
+  openTab(`http://localhost:${port}`);
 };
 
 const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
