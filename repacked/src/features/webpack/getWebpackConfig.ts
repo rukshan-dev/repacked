@@ -33,7 +33,7 @@ const getWebpackConfig: (
     devtool: "source-map",
     output: {
       uniqueName: appConfig.appName,
-      publicPath: "auto",
+      publicPath: appConfig.client.publicPath,
       path: outputDirectory,
       filename: "js/[name].[fullhash].js",
       clean: typeof options?.clean === "boolean" ? options.clean : true,

@@ -1,76 +1,16 @@
 import { webpack } from "webpack";
 import getAppConfig from "../app-config/getAppConfig";
 import WebpackDevServer from "webpack-dev-server";
-import { expressServer } from "../express/server";
-import webpackHotMiddleware from "webpack-hot-middleware";
-import webpackDevMiddleware from "webpack-dev-middleware";
 import { BuildMode } from "../webpack/types";
 import { AppConfig } from "../app-config/types";
-import history from "connect-history-api-fallback";
 import path from "path";
-import getServerWebpackConfig from "../express/getServerWebpackConfig";
 import getClientWebpackConfig from "../webpack/getClientWebpackConfig";
-import { logWebpackErrors } from "../webpack/utils";
-import { ChildProcessEvents } from "../../types";
-
-const openTab = (url: string) => {
-  process.send?.(ChildProcessEvents.ShouldOpenTab);
-  process.on("message", (message) => {
-    if (message === ChildProcessEvents.OpenTab) {
-      const openDevApp = async (url: string) => {
-        const open = (await import("open")).default;
-        await open(url);
-      };
-      openDevApp(url);
-    }
-  });
-};
-
-const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
-  const clientWebpackConfig = await getClientWebpackConfig(mode, appConfig, {});
-  clientWebpackConfig.output!.publicPath = appConfig.client.publicPath;
-  const serverWebpackConfig = await getServerWebpackConfig(mode, appConfig, {
-    watch: true,
-  });
-  const clientCompiler = webpack(clientWebpackConfig);
-  const port = appConfig.development.port || 3000;
-  const clientEnabled = appConfig.client.enabled;
-  const app = expressServer();
-
-  const appEntry = path.join(
-    serverWebpackConfig.output?.path as string,
-    serverWebpackConfig.output?.filename as string
-  );
-
-  const bindRoutes = async () => {
-    const clientApp = await import(appEntry);
-    const clientAppCallback = clientApp.default?.default || clientApp.default;
-    typeof clientAppCallback === "function" && clientAppCallback(app);
-
-    if (clientEnabled) {
-      app.use(history());
-      const devMiddleware = webpackDevMiddleware(clientCompiler, {
-        publicPath: clientWebpackConfig.output?.publicPath,
-      });
-      app.use(devMiddleware);
-      app.use(webpackHotMiddleware(clientCompiler));
-    }
-    appConfig.development.open && openTab(`http://localhost:${port}`);
-  };
-
-  app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-  });
-
-  const serverCompiler = webpack(serverWebpackConfig, logWebpackErrors);
-
-  let watchInitiated = false;
-  serverCompiler.hooks.done.tap("OnServerCompiled", async (stats) => {
-    bindRoutes();
-    watchInitiated && process.send?.(ChildProcessEvents.Reload);
-    watchInitiated = true;
-  });
-};
+import { createChildProcess } from "../childProcess/childProcess";
+import { expressServer } from "../express/server";
+import history from "connect-history-api-fallback";
+import webpackHotMiddleware from "webpack-hot-middleware";
+import webpackDevMiddleware from "webpack-dev-middleware";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
   const webpackConfig = await getClientWebpackConfig(mode, appConfig);
@@ -82,6 +22,58 @@ const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
   };
 
   runServer();
+};
+
+const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
+  const programPath = path.join(__dirname, "features/serve/serveDevServer.js");
+  createChildProcess(programPath);
+
+  const clientWebpackConfig = await getClientWebpackConfig(mode, appConfig, {});
+  clientWebpackConfig.output!.publicPath = appConfig.client.publicPath;
+  const clientCompiler = webpack(clientWebpackConfig);
+  const port = appConfig.development.port || 3000;
+  const clientEnabled = appConfig.client.enabled;
+
+  const app = expressServer();
+  const nextWeakMap = new WeakMap();
+
+  const proxy = createProxyMiddleware({
+    target: `http://localhost:${port + 1}`,
+    changeOrigin: true,
+    selfHandleResponse: true,
+    on: {
+      proxyRes: (proxyRes, req, res) => {
+        if (!clientEnabled) {
+          proxyRes.pipe(res);
+          return;
+        }
+        if (proxyRes.headers?.["x-dev-repacked-route-status"] === "unhandled") {
+          const next = nextWeakMap.get(req);
+          return next();
+        } else {
+          proxyRes.pipe(res);
+        }
+      },
+    },
+  });
+
+  app.use((req, res, next) => {
+    nextWeakMap.set(req, next);
+    proxy(req, res, next);
+  });
+
+  if (clientEnabled) {
+    app.use(history());
+    const devMiddleware = webpackDevMiddleware(clientCompiler, {
+      publicPath: clientWebpackConfig.output?.publicPath,
+    });
+    app.use(devMiddleware);
+    app.use(webpackHotMiddleware(clientCompiler));
+  }
+
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
 };
 
 const serve = async (mode: BuildMode) => {

@@ -17,15 +17,12 @@ const serve = async (port: number) => {
   };
   const app = expressServer();
 
-  if (clientEnabled) {
-    const publicAssets = path.join(__dirname, "client");
-    app.use(express.static(publicAssets));
-  }
-
   externalApp.default(app);
 
   if (clientEnabled) {
     app.use(history());
+    const publicAssets = path.join(__dirname, "client");
+    app.use(express.static(publicAssets));
   }
 
   app.listen(port, () => {
