@@ -11,9 +11,11 @@ import history from "connect-history-api-fallback";
 import webpackHotMiddleware from "webpack-hot-middleware";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import { buildServer } from "../express/build";
 
 const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
   const webpackConfig = await getClientWebpackConfig(mode, appConfig);
+  webpackConfig.devServer!.historyApiFallback = true;
   const compiler = webpack(webpackConfig);
   const server = new WebpackDevServer(webpackConfig.devServer, compiler);
   const runServer = async () => {
@@ -25,6 +27,7 @@ const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
 };
 
 const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
+  await buildServer(mode, appConfig);
   const programPath = path.join(__dirname, "features/serve/serveDevServer.js");
   createChildProcess(programPath);
 

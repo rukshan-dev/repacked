@@ -15,7 +15,24 @@ export const buildServer = async (mode: BuildMode, appConfig: AppConfig) => {
   const webpackConfig = await getServerWebpackConfig(mode, appConfig, {
     clean: false,
   });
-  webpack(webpackConfig, logWebpackErrors);
+  return new Promise((resolve, reject) => {
+    webpack(webpackConfig, (err, stats) => {
+      logWebpackErrors(err, stats);
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (stats?.hasErrors()) {
+        const info = stats.toJson();
+        reject(
+          new Error(`Build failed with errors:\n${info.errors?.join("\n")}`)
+        );
+        return;
+      }
+
+      resolve(true);
+    });
+  });
 };
 
 //TODO: move runtime build to webpack
