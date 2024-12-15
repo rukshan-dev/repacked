@@ -29,7 +29,8 @@ export const buildRuntime = async (mode: BuildMode, appConfig: AppConfig) => {
     format: ["cjs"],
     dts: false,
     sourcemap: false,
-    external: ["*"],
+    noExternal: [/(.*)/],
+    splitting: false,
     minify: true,
     loader: {
       ".json": "json",

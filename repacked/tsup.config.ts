@@ -8,6 +8,7 @@ export default defineConfig([
       "src/program.ts",
       "src/features/express/runtime.ts",
       "src/features/test/transformers",
+      "src/features/serve/serveDevServer.ts"
     ],
     splitting: false,
     sourcemap: false,
