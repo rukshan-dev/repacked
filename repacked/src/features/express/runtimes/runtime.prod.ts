@@ -1,23 +1,28 @@
-import { expressServer } from "./server";
+import { expressServer } from "../server";
 import express from "express";
 import path from "path";
 import history from "connect-history-api-fallback";
 import yargs from "yargs";
+import importJson from "../utils/importJson";
 
 const serve = async (port: number) => {
   const appPath = "./app.js";
   const configPath = "./config.json";
-  const config = (await import(configPath)) as { client: { enabled: boolean } };
+  const config = importJson<{ client: { enabled: boolean } }>(
+    path.join(__dirname, configPath)
+  );
   const clientEnabled = config.client.enabled;
 
-  const externalApp = (await import(appPath)) as {
-    default: (
-      app: ReturnType<typeof expressServer>
-    ) => ReturnType<typeof expressServer>;
+  const externalApp = (await import(/* webpackIgnore: true */ appPath)) as {
+    default: {
+      default: (
+        app: ReturnType<typeof expressServer>
+      ) => ReturnType<typeof expressServer>;
+    };
   };
   const app = expressServer();
 
-  externalApp.default(app);
+  externalApp.default.default(app);
 
   if (clientEnabled) {
     app.use(history());

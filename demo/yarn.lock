@@ -6859,6 +6859,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"license-webpack-plugin@npm:4.0.2":
+  version: 4.0.2
+  resolution: "license-webpack-plugin@npm:4.0.2"
+  dependencies:
+    webpack-sources: "npm:^3.0.0"
+  peerDependenciesMeta:
+    webpack:
+      optional: true
+    webpack-sources:
+      optional: true
+  checksum: 10c0/6014492b22c5f28a4d367057b5b2c1214b83c73785157fea130d5b877b50ed8820d8d8e73e96b3437c455b5b5c6817b36837da093239f95b534be43c0cdcfedc
+  languageName: node
+  linkType: hard
+
 "lilconfig@npm:^3.1.1":
   version: 3.1.2
   resolution: "lilconfig@npm:3.1.2"
@@ -8258,7 +8272,7 @@ __metadata:
 
 "repacked@file:../repacked/dist/::locator=test-project%40workspace%3A.":
   version: 0.3.6
-  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=656eed&locator=test-project%40workspace%3A."
+  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=db695d&locator=test-project%40workspace%3A."
   dependencies:
     "@babel/core": "npm:7.26.0"
     "@babel/plugin-transform-modules-commonjs": "npm:7.25.9"
@@ -8275,6 +8289,7 @@ __metadata:
     "@types/jest": "npm:29.5.14"
     babel-jest: "npm:29.7.0"
     babel-loader: "npm:9.2.1"
+    chalk: "npm:4.1.2"
     connect-history-api-fallback: "npm:2.0.0"
     copy-webpack-plugin: "npm:12.0.2"
     css-loader: "npm:7.1.2"
@@ -8284,6 +8299,7 @@ __metadata:
     http-proxy-middleware: "npm:3.0.3"
     jest: "npm:29.7.0"
     jest-environment-jsdom: "npm:29.7.0"
+    license-webpack-plugin: "npm:4.0.2"
     open: "npm:10.1.0"
     react-refresh: "npm:0.14.2"
     style-loader: "npm:4.0.0"
@@ -8297,7 +8313,7 @@ __metadata:
     yargs: "npm:17.7.2"
   bin:
     repacked: ./cli.js
-  checksum: 10c0/bd3b5fc77e3e56ac6071ec3a4769609175c7d70f9655094c906205c9145bd6b86ae858aca313bcfc37346f6f1dbfe712672dfe5e96f613250b6f3d495a2bf664
+  checksum: 10c0/4821fc70cdf2b1ef0ad3008e1804405fd905a2b807e45f010f99ba95ce82dea22ff5454908630d185d1576e5fa3eafd51665aecc9028de9191c5f8375fdfa56e
   languageName: node
   linkType: hard
 
@@ -9746,7 +9762,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-sources@npm:^3.2.3":
+"webpack-sources@npm:^3.0.0, webpack-sources@npm:^3.2.3":
   version: 3.2.3
   resolution: "webpack-sources@npm:3.2.3"
   checksum: 10c0/2ef63d77c4fad39de4a6db17323d75eb92897b32674e97d76f0a1e87c003882fc038571266ad0ef581ac734cbe20952912aaa26155f1905e96ce251adbb1eb4e
