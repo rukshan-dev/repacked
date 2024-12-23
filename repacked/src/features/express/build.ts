@@ -6,7 +6,6 @@ import cwd from "../../utils/cwd";
 import path from "path";
 import fs from "fs";
 import { getBabelOptions } from "../babel/babelOptions";
-import bundleStaticConfig from "./plugins/bundleStaticConfig";
 import { webpack } from "webpack";
 import getServerWebpackConfig from "./getServerWebpackConfig";
 import { logWebpackErrors } from "../webpack/utils";
@@ -52,7 +51,6 @@ export const buildRuntime = async (mode: BuildMode, appConfig: AppConfig) => {
     loader: {
       ".json": "json",
     },
-    plugins: [bundleStaticConfig(appConfig)],
     esbuildPlugins: [
       {
         name: "babel",

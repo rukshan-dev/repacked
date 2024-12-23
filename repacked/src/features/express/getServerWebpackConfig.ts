@@ -2,6 +2,7 @@ import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
 import getWebpackConfig from "../webpack/getWebpackConfig";
 import { BuildMode, WebpackConfigOptions } from "../webpack/types";
+import { BundleServerConfig } from "./plugins/bundleServerConfig";
 
 const getServerWebpackConfig = async (
   mode: BuildMode,
@@ -12,6 +13,7 @@ const getServerWebpackConfig = async (
     ...(options ?? {}),
     target: "server",
     override: (config) => {
+      config.plugins?.push(new BundleServerConfig(appConfig));
       config.target = "node";
       config.entry = cwd(appConfig.server.entry);
       config.output!.libraryTarget = "commonjs2";
