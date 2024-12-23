@@ -6,9 +6,9 @@ export default defineConfig([
       "src/index.ts",
       "src/cli.ts",
       "src/program.ts",
-      "src/features/express/runtime.ts",
       "src/features/test/transformers",
-      "src/features/serve/serveDevServer.ts"
+      "src/features/express/runtimes/runtime.dev.ts",
+      "src/features/express/runtimes/runtime.prod.ts",
     ],
     splitting: false,
     sourcemap: false,

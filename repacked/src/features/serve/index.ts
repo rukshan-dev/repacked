@@ -3,15 +3,14 @@ import getAppConfig from "../app-config/getAppConfig";
 import WebpackDevServer from "webpack-dev-server";
 import { BuildMode } from "../webpack/types";
 import { AppConfig } from "../app-config/types";
-import path from "path";
 import getClientWebpackConfig from "../webpack/getClientWebpackConfig";
-import { createChildProcess } from "../childProcess/childProcess";
 import { expressServer } from "../express/server";
 import history from "connect-history-api-fallback";
 import webpackHotMiddleware from "webpack-hot-middleware";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import { buildServer } from "../express/build";
+import getServerWebpackConfig from "../express/getServerWebpackConfig";
+import { logWebpackErrors } from "../webpack/utils";
 
 const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
   const webpackConfig = await getClientWebpackConfig(mode, appConfig);
@@ -27,9 +26,10 @@ const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
 };
 
 const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
-  await buildServer(mode, appConfig);
-  const programPath = path.join(__dirname, "features/serve/serveDevServer.js");
-  createChildProcess(programPath);
+  const serverWebpackConfig = await getServerWebpackConfig(mode, appConfig, {
+    watch: true,
+  });
+  webpack(serverWebpackConfig, logWebpackErrors);
 
   const clientWebpackConfig = await getClientWebpackConfig(mode, appConfig, {});
   clientWebpackConfig.output!.publicPath = appConfig.client.publicPath;
