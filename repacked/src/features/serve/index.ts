@@ -3,14 +3,14 @@ import getAppConfig from "../app-config/getAppConfig";
 import WebpackDevServer from "webpack-dev-server";
 import { BuildMode } from "../webpack/types";
 import { AppConfig } from "../app-config/types";
-import getClientWebpackConfig from "../webpack/getClientWebpackConfig";
-import { expressServer } from "../express/server";
+import { expressServer } from "../server/server";
 import history from "connect-history-api-fallback";
 import webpackHotMiddleware from "webpack-hot-middleware";
 import webpackDevMiddleware from "webpack-dev-middleware";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import getServerWebpackConfig from "../express/getServerWebpackConfig";
+import getServerWebpackConfig from "../server/getServerWebpackConfig";
 import { logWebpackErrors } from "../webpack/utils";
+import getClientWebpackConfig from "../client/getClientWebpackConfig";
 
 const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
   const webpackConfig = await getClientWebpackConfig(mode, appConfig);

@@ -1,7 +1,7 @@
 import getAppConfig from "../app-config/getAppConfig";
 import { BuildMode } from "../webpack/types";
-import { build as buildClient } from "../webpack/webpack";
-import { buildServer } from "../express/build";
+import { buildClient } from "../client/build";
+import { buildServer } from "../server/build";
 import path from "path";
 import removeFolder from "./utils/removeFolder";
 import cwd from "../../utils/cwd";

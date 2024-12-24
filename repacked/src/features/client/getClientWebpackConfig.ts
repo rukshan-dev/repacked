@@ -6,10 +6,10 @@ import { ModuleFederationPlugin } from "@module-federation/enhanced";
 import CopyPlugin from "copy-webpack-plugin";
 import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
-import { BuildMode, WebpackConfigOptions } from "./types";
+import { BuildMode, WebpackConfigOptions } from "../webpack/types";
 import { EnvVariablesPlugin } from "./plugins/envVariables";
 import HtmlMFWebpackPlugin from "./plugins/htmlMFWebpackPlugin";
-import getWebpackConfig from "./getWebpackConfig";
+import getWebpackConfig from "../webpack/getWebpackConfig";
 
 const getClientWebpackConfig = async (
   mode: BuildMode,

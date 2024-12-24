@@ -38,7 +38,7 @@ const getServerWebpackConfig = async (
         app: cwd(appConfig.server.entry),
         index: path.join(
           __dirname,
-          "/features/express/runtimes/",
+          "/features/server/runtimes/",
           `runtime.${runtimeEnv}.js`
         ),
       };
