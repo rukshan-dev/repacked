@@ -7,6 +7,7 @@ const { hideBin } = require("yargs/helpers");
 const manifest = {
   name: `@rukshan-dev/${packageJson.name}`,
   version: packageJson.version,
+  keywords: packageJson.keywords,
   main: "./index.js",
   bin: {
     repacked: "./cli.js",

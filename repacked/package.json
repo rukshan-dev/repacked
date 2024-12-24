@@ -1,9 +1,22 @@
 {
   "name": "repacked",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "main": "index.js",
   "repository": "git@github.com:rukshan-dev/repacked.git",
   "author": "Rukshan Fernando<hello@rukshan.dev>",
+  "keywords": [
+    "framework",
+    "react",
+    "express",
+    "jest",
+    "create-react",
+    "scripts",
+    "typescript",
+    "javascript",
+    "app",
+    "frontend",
+    "server"
+  ],
   "license": "MIT",
   "packageManager": "yarn@4.5.1",
   "scripts": {
