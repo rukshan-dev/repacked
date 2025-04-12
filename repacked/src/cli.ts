@@ -6,6 +6,7 @@ import { BuildMode } from "./features/webpack/types";
 import "dotenv/config";
 import { runTest } from "./features/test/test";
 import serve from "./features/serve";
+import getAppConfig from "./features/app-config/getAppConfig";
 
 const exec = () =>
   yargs(hideBin(process.argv))
@@ -19,8 +20,9 @@ const exec = () =>
           choices: ["production", "development"],
         });
       },
-      (argv) => {
-        serve(argv.mode as BuildMode);
+      async (argv) => {
+        const appConfig = await getAppConfig();
+        serve(argv.mode as BuildMode, appConfig);
       }
     )
     .command(
@@ -33,8 +35,9 @@ const exec = () =>
           choices: ["production", "development"],
         });
       },
-      (argv) => {
-        build(argv.mode as BuildMode);
+      async (argv) => {
+        const appConfig = await getAppConfig();
+        build(argv.mode as BuildMode, appConfig);
       }
     )
     .command(
@@ -43,9 +46,10 @@ const exec = () =>
       (yargs) => {
         return yargs;
       },
-      (argv) => {
+      async (argv) => {
         const jestArgv = process.argv.slice(2);
-        runTest(jestArgv);
+        const appConfig = await getAppConfig();
+        runTest(jestArgv, appConfig);
       }
     )
     .strictCommands()

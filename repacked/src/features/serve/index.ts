@@ -1,5 +1,4 @@
 import { webpack } from "webpack";
-import getAppConfig from "../app-config/getAppConfig";
 import WebpackDevServer from "webpack-dev-server";
 import { BuildMode } from "../webpack/types";
 import { AppConfig } from "../app-config/types";
@@ -79,8 +78,7 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
   });
 };
 
-const serve = async (mode: BuildMode) => {
-  const appConfig = await getAppConfig();
+const serve = async (mode: BuildMode, appConfig: AppConfig) => {
   if (appConfig.server.enabled) {
     serveServer(mode, appConfig);
   } else {
