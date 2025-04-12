@@ -5,9 +5,9 @@ import { buildServer } from "../server/build";
 import path from "path";
 import removeFolder from "./utils/removeFolder";
 import cwd from "../../utils/cwd";
+import { AppConfig } from "../app-config/types";
 
-const build = async (mode: BuildMode) => {
-  const appConfig = await getAppConfig();
+const build = async (mode: BuildMode, appConfig: AppConfig) => {
   const serverEnabled = appConfig.server.enabled;
   const clientEnabled = appConfig.client.enabled;
   const clientOutputPath = serverEnabled
