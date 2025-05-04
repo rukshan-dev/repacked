@@ -10,6 +10,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import getServerWebpackConfig from "../server/getServerWebpackConfig";
 import { logWebpackErrors } from "../webpack/utils";
 import getClientWebpackConfig from "../client/getClientWebpackConfig";
+import { copyHeaders } from "./utils/copyHeaders";
 
 const serveClientOnly = async (mode: BuildMode, appConfig: AppConfig) => {
   const webpackConfig = await getClientWebpackConfig(mode, appConfig);
@@ -53,6 +54,7 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
           const next = nextWeakMap.get(req);
           return next();
         } else {
+          copyHeaders(proxyRes, res);
           proxyRes.pipe(res);
         }
       },

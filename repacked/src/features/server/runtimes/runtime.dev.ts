@@ -21,6 +21,7 @@ const serve = async (port: number) => {
     };
   };
   const app = expressServer();
+  app.set("trust proxy", true);
 
   externalApp.default.default(app);
 
