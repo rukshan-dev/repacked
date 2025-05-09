@@ -13,6 +13,17 @@ const getServerWebpackConfig = async (
   options?: Omit<WebpackConfigOptions, "override" | "target">
 ) => {
   const runtimeEnv = mode === "production" ? "prod" : "dev";
+
+  const getCustomRuntime = () => {
+    if (mode === "production" && !!appConfig.server.runtimeScript.production) {
+      return appConfig.server.runtimeScript.production;
+    }
+    if (!!appConfig.server.runtimeScript.development) {
+      return appConfig.server.runtimeScript.development;
+    }
+    return null;
+  };
+
   return await getWebpackConfig(mode, appConfig, {
     ...(options ?? {}),
     target: "server",
@@ -24,8 +35,8 @@ const getServerWebpackConfig = async (
           perChunkOutput: false,
           addBanner: true,
           stats: {
-            warnings: false
-          }
+            warnings: false,
+          },
         }) as any
       );
 
@@ -36,11 +47,13 @@ const getServerWebpackConfig = async (
       config.target = "node";
       config.entry = {
         app: cwd(appConfig.server.entry),
-        index: path.join(
-          __dirname,
-          "/features/server/runtimes/",
-          `runtime.${runtimeEnv}.js`
-        ),
+        index:
+          getCustomRuntime() ??
+          path.join(
+            __dirname,
+            "/features/server/runtimes/",
+            `runtime.${runtimeEnv}.js`
+          ),
       };
       config.output!.libraryTarget = "commonjs2";
       config.output!.filename = "[name].js";
