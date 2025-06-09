@@ -1,16 +1,16 @@
 import { LicenseWebpackPlugin } from "license-webpack-plugin";
 import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
-import getWebpackConfig from "../webpack/getWebpackConfig";
-import { BuildMode, WebpackConfigOptions } from "../webpack/types";
+import getRspackConfig from "../rspack/getRspackConfig";
+import { BuildMode, RspackConfigOptions } from "../rspack/types";
 import { BundleServerConfig } from "./plugins/bundleServerConfig";
 import { HotReloadServer } from "./plugins/hotReloadServer";
 import path from "path";
 
-const getServerWebpackConfig = async (
+const getServerRspackConfig = async (
   mode: BuildMode,
   appConfig: AppConfig,
-  options?: Omit<WebpackConfigOptions, "override" | "target">
+  options?: Omit<RspackConfigOptions, "override" | "target">
 ) => {
   const runtimeEnv = mode === "production" ? "prod" : "dev";
 
@@ -24,22 +24,25 @@ const getServerWebpackConfig = async (
     return null;
   };
 
-  return await getWebpackConfig(mode, appConfig, {
+  return await getRspackConfig(mode, appConfig, {
     ...(options ?? {}),
     target: "server",
     override: (config) => {
       config.plugins?.push(new BundleServerConfig(appConfig));
-      config.plugins?.push(
-        new LicenseWebpackPlugin({
-          outputFilename: "LICENSE",
-          perChunkOutput: false,
-          addBanner: true,
-          stats: {
-            warnings: false,
-          },
-        }) as any
-      );
 
+      //@todo: find root cause for crash in hot reload
+      if (mode === "production") {
+        config.plugins?.push(
+          new LicenseWebpackPlugin({
+            outputFilename: "LICENSE",
+            perChunkOutput: false,
+            addBanner: true,
+            stats: {
+              warnings: false,
+            },
+          }) as any
+        );
+      }
       if (mode === "development") {
         config.plugins?.push(new HotReloadServer(appConfig));
       }
@@ -69,4 +72,4 @@ const getServerWebpackConfig = async (
   });
 };
 
-export default getServerWebpackConfig;
+export default getServerRspackConfig;

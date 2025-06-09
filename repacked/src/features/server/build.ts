@@ -1,16 +1,16 @@
 import { AppConfig } from "../app-config/types";
-import { BuildMode } from "../webpack/types";
-import { webpack } from "webpack";
-import getServerWebpackConfig from "./getServerWebpackConfig";
-import { logWebpackErrors } from "../webpack/utils";
+import { BuildMode } from "../rspack/types";
+import { rspack } from "@rspack/core";
+import getServerRspackConfig from "./getServerRspackConfig";
+import { logRspackErrors } from "../rspack/utils";
 
 export const buildServer = async (mode: BuildMode, appConfig: AppConfig) => {
-  const webpackConfig = await getServerWebpackConfig(mode, appConfig, {
+  const rspackConfig = await getServerRspackConfig(mode, appConfig, {
     clean: false,
   });
   return new Promise((resolve, reject) => {
-    webpack(webpackConfig, (err, stats) => {
-      logWebpackErrors(err, stats);
+    rspack(rspackConfig, (err, stats) => {
+      logRspackErrors(err, stats);
       if (err) {
         reject(err);
         return;

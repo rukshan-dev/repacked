@@ -1,4 +1,4 @@
-import { DefinePlugin } from "webpack";
+import { DefinePlugin } from "@rspack/core";
 
 type FilterCallbackFn = (key: string, value?: string) => boolean;
 

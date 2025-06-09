@@ -1,5 +1,5 @@
-import { Stats, StatsError } from "webpack";
-interface CallbackWebpack<T> {
+import { Stats, StatsError } from "@rspack/core";
+interface CallbackRspack<T> {
   (err: null | Error, stats?: T): void;
 }
 
@@ -15,7 +15,8 @@ const filterKnownWarnings = (warnings: StatsError[]) => {
   return warnings.filter((warning) => {
     if (
       warning.message.includes("Critical dependency") &&
-      containsAny(warning.moduleName ?? "", knownPackages)
+      (!warning.moduleName ||
+        containsAny(warning.moduleName ?? "", knownPackages))
     ) {
       return false;
     }
@@ -23,7 +24,7 @@ const filterKnownWarnings = (warnings: StatsError[]) => {
   });
 };
 
-export const logWebpackErrors: CallbackWebpack<Stats> = (
+export const logRspackErrors: CallbackRspack<Stats> = (
   err: (Error & { details?: unknown }) | null,
   stats
 ) => {

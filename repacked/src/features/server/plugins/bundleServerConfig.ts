@@ -1,4 +1,4 @@
-import { Compiler, sources } from "webpack";
+import { Compiler, sources } from "@rspack/core";
 import { AppConfig } from "../../app-config/types";
 
 export class BundleServerConfig {

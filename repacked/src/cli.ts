@@ -2,7 +2,7 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import build from "./features/build";
-import { BuildMode } from "./features/webpack/types";
+import { BuildMode } from "./features/rspack/types";
 import "dotenv/config";
 import { runTest } from "./features/test/test";
 import serve from "./features/serve";
