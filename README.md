@@ -97,16 +97,16 @@ Settings for the server-side application.
 
 ## webpack
 
-A function to customize the Webpack configuration.
+A function to customize the Rspack configuration.
 
 | Option    | Type     | Description                          |
 |-----------|----------|--------------------------------------|
-| `config`  | function | A function that takes the Webpack configuration and returns a modified version.|
+| `config`  | function | A function that takes the Rspack configuration and returns a modified version.|
 
 Example:
 ```js
-webpack: (config) => {
-  // Modify the Webpack config here
+rspack: (config) => {
+  // Modify the Rspack config here
   return config;
 }
 ```
