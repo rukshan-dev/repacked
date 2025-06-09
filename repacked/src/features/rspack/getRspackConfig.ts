@@ -1,4 +1,4 @@
-import "webpack-dev-server";
+import "@rspack/dev-server";
 import { Configuration } from "@rspack/core";
 import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
