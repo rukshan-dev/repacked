@@ -1,4 +1,4 @@
-import "webpack-dev-server";
+import "@rspack/dev-server";
 import {
   Configuration,
   HotModuleReplacementPlugin,
