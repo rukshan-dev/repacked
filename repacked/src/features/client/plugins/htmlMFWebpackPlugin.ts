@@ -1,16 +1,15 @@
-import { Compiler, Compilation } from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+import { Compiler, Compilation, HtmlRspackPlugin } from "@rspack/core";
 
-class HtmlMFWebpackPlugin {
+class HtmlMFRspackPlugin {
   constructor(private entryFile: string = "remoteEntry.js") {}
 
   apply(compiler: Compiler) {
     compiler.hooks.compilation.tap(
-      "HtmlMFWebpackPlugin",
+      "HtmlMFRspackPlugin",
       (compilation: Compilation) => {
-        HtmlWebpackPlugin.getCompilationHooks(
+        HtmlRspackPlugin.getCompilationHooks(
           compilation
-        ).alterAssetTags.tapAsync("HtmlMFWebpackPlugin", (data, cb) => {
+        ).alterAssetTags.tapAsync("HtmlMFRspackPlugin", (data, cb) => {
           const entryFile = `${
             data.publicPath.toLowerCase() === "auto" ? "" : data.publicPath
           }${this.entryFile}`;
@@ -24,4 +23,4 @@ class HtmlMFWebpackPlugin {
   }
 }
 
-export default HtmlMFWebpackPlugin;
+export default HtmlMFRspackPlugin;

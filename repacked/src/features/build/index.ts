@@ -1,5 +1,4 @@
-import getAppConfig from "../app-config/getAppConfig";
-import { BuildMode } from "../webpack/types";
+import { BuildMode } from "../rspack/types";
 import { buildClient } from "../client/build";
 import { buildServer } from "../server/build";
 import path from "path";

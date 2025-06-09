@@ -22,7 +22,7 @@ const defaultAppConfig: AppConfig = {
     port: 3000,
     open: true,
   },
-  webpack: (config) => config,
+  rspack: (config) => config,
   jest: (config) => config,
 };
 
@@ -49,7 +49,9 @@ const getAppConfig = async () => {
         ...defaultAppConfig.development,
         ...(config.development || {}),
       },
+      rspack: config.rspack ?? config.webpack ?? defaultAppConfig.rspack,
     };
+
     return finalConfig;
   } catch (e) {
     console.warn("loading default config");

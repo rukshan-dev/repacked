@@ -1,5 +1,5 @@
 import type { moduleFederationPlugin } from "@module-federation/sdk";
-import { Configuration } from "webpack";
+import { Configuration } from "@rspack/core";
 import { Config } from "jest";
 
 type DeepPartial<T> = {
@@ -45,10 +45,14 @@ export type AppConfig = {
   client: ClientOptions;
   server: ServerOptions;
   moduleFederation?: moduleFederationPlugin.ModuleFederationPluginOptions;
-  webpack: (
+  /**
+   * @deprecated use `rspack` instead
+   */
+  webpack?: (
     config: Configuration,
     target: "client" | "server"
   ) => Configuration;
+  rspack: (config: Configuration, target: "client" | "server") => Configuration;
   jest: (config: Config) => Config;
 };
 

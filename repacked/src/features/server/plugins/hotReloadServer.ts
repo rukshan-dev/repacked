@@ -1,4 +1,4 @@
-import { Compiler } from "webpack";
+import { Compiler } from "@rspack/core";
 import { AppConfig } from "../../app-config/types";
 import cluster, { Worker } from "node:cluster";
 import path from "path";

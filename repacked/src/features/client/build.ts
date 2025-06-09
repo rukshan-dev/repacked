@@ -1,10 +1,10 @@
-import { webpack } from "webpack";
-import { BuildMode } from "../webpack/types";
+import { rspack } from "@rspack/core";
+import { BuildMode } from "../rspack/types";
 import { AppConfig } from "../app-config/types";
-import getClientWebpackConfig from "./getClientWebpackConfig";
-import { logWebpackErrors } from "../webpack/utils";
+import getClientRspackConfig from "./getClientRspackConfig";
+import { logRspackErrors } from "../rspack/utils";
 
 export const buildClient = async (mode: BuildMode, appConfig: AppConfig) => {
-  const webpackConfig = await getClientWebpackConfig(mode, appConfig);
-  webpack(webpackConfig, logWebpackErrors);
+  const rspackConfig = await getClientRspackConfig(mode, appConfig);
+  rspack(rspackConfig, logRspackErrors);
 };

@@ -1,14 +1,14 @@
 import "webpack-dev-server";
-import { Configuration } from "webpack";
+import { Configuration } from "@rspack/core";
 import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
-import { BuildMode, WebpackConfigOptions } from "./types";
+import { BuildMode, RspackConfigOptions } from "./types";
 import { getBabelOptions } from "../babel/babelOptions";
 
-const getWebpackConfig: (
+const getRspackConfig: (
   mode: BuildMode,
   appConfig: AppConfig,
-  options?: WebpackConfigOptions
+  options?: RspackConfigOptions
 ) => Promise<Configuration> = async (mode, appConfig, options) => {
   const isDevelopment = mode === "development";
   const isServer = options?.target === "server";
@@ -18,7 +18,7 @@ const getWebpackConfig: (
   const outputDirectory = cwd(appConfig.output.dir);
   const plugins: Configuration["plugins"] = [];
 
-  const webpackConfig: Configuration = {
+  const rspackConfig: Configuration = {
     mode,
     watch: options?.watch,
     watchOptions: options?.watch
@@ -78,10 +78,10 @@ const getWebpackConfig: (
       hints: false,
     },
   };
-  return appConfig.webpack(
-    configOverride(webpackConfig),
+  return appConfig.rspack(
+    configOverride(rspackConfig),
     options?.target ?? "client"
   );
 };
 
-export default getWebpackConfig;
+export default getRspackConfig;
