@@ -3,7 +3,7 @@ import { Configuration } from "@rspack/core";
 import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
 import { BuildMode, RspackConfigOptions } from "./types";
-import { getBabelOptions } from "../babel/babelOptions";
+import { getSwcOptions } from "../swc/swcOptions";
 
 const getRspackConfig: (
   mode: BuildMode,
@@ -42,10 +42,26 @@ const getRspackConfig: (
     module: {
       rules: [
         {
+          test: /\.(j|t)s?$/,
+          use: {
+            loader: "builtin:swc-loader",
+            options: getSwcOptions({
+              tsx: false,
+              isProduction: !isDevelopment,
+              isServer,
+            }),
+          },
+          exclude: /node_modules/,
+        },
+        {
           test: /\.(js|ts)x?$/,
           use: {
-            loader: "babel-loader",
-            options: getBabelOptions(isDevelopment, isServer),
+            loader: "builtin:swc-loader",
+            options: getSwcOptions({
+              tsx: true,
+              isProduction: !isDevelopment,
+              isServer,
+            }),
           },
           exclude: /node_modules/,
         },
