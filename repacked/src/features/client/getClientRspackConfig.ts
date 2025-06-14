@@ -45,7 +45,7 @@ const getClientRspackConfig = async (
     new rspack.CopyRspackPlugin({
       patterns: [
         {
-          from: cwd("./public"),
+          from: cwd(appConfig.client.assetsDir),
           to: outputDirectory,
         },
       ],
