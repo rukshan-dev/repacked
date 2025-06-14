@@ -2,6 +2,7 @@ import { Config } from "jest";
 import { AppConfig } from "../app-config/types";
 import cwd from "../../utils/cwd";
 import path from "path";
+import { getSwcOptions } from "../swc/swcOptions";
 
 export const getJestConfig = (): Config => {
   return {
@@ -16,10 +17,11 @@ export const getJestConfig = (): Config => {
     testEnvironment: "jsdom",
     moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
     transform: {
-      "^.+\\.(js|jsx|ts|tsx|mjs|cjs)$": path.resolve(
-        __dirname,
-        "./features/test/transformers/babelTransformer.js"
-      ),
+      "^.+\\.(js|ts|mjs|cjs)$": "@swc/jest",
+      "^.+\\.(jsx|tsx)$": [
+        "@swc/jest",
+        getSwcOptions({ isProduction: true, tsx: true }),
+      ],
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
         path.resolve(
           __dirname,
