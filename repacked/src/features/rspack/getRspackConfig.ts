@@ -8,7 +8,7 @@ import { getSwcOptions } from "../swc/swcOptions";
 const getRspackConfig: (
   mode: BuildMode,
   appConfig: AppConfig,
-  options?: RspackConfigOptions
+  options: RspackConfigOptions
 ) => Promise<Configuration> = async (mode, appConfig, options) => {
   const isDevelopment = mode === "development";
   const isServer = options?.target === "server";
@@ -16,7 +16,10 @@ const getRspackConfig: (
     options?.override ?? ((config: Configuration) => config);
 
   const outputDirectory = cwd(appConfig.output.dir);
-  const plugins: Configuration["plugins"] = [];
+
+  const plugins: Configuration["plugins"] = appConfig.plugins.map((plugin) =>
+    plugin({ target: options.target, appConfig })
+  );
 
   const rspackConfig: Configuration = {
     mode,

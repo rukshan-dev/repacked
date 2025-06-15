@@ -2,9 +2,9 @@ import { Configuration } from "@rspack/core";
 
 export type BuildMode = "production" | "development";
 export type BuildTarget = "client" | "server";
-export type RspackConfigOptions = Partial<{
+export type RspackConfigOptions = {
   target: BuildTarget;
-  watch: boolean;
-  clean: boolean;
-  override: (config: Configuration) => Configuration;
-}>;
+  watch?: boolean;
+  clean?: boolean;
+  override?: (config: Configuration) => Configuration;
+};

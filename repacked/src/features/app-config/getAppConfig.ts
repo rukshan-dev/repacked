@@ -26,6 +26,7 @@ const defaultAppConfig: AppConfig = {
   },
   rspack: (config) => config,
   jest: (config) => config,
+  plugins: [],
 };
 
 const resolveConfig = async (
@@ -75,6 +76,7 @@ const getAppConfig = async () => {
         ...(config.development || {}),
       },
       rspack: config.rspack ?? config.webpack ?? defaultAppConfig.rspack,
+      plugins: config.plugins ?? defaultAppConfig.plugins,
     };
 
     return finalConfig;

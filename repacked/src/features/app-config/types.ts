@@ -1,6 +1,7 @@
 import type { moduleFederationPlugin } from "@module-federation/sdk";
-import { Configuration } from "@rspack/core";
+import { Compiler, Configuration } from "@rspack/core";
 import { Config } from "jest";
+import { BuildTarget } from "../rspack/types";
 
 type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (...args: any[]) => any // Exclude function types
@@ -49,12 +50,25 @@ export type AppConfig = {
   /**
    * @deprecated use `rspack` instead
    */
-  webpack?: (
-    config: Configuration,
-    target: "client" | "server"
-  ) => Configuration;
-  rspack: (config: Configuration, target: "client" | "server") => Configuration;
+  webpack?: (config: Configuration, target: BuildTarget) => Configuration;
+  rspack: (config: Configuration, target: BuildTarget) => Configuration;
   jest: (config: Config) => Config;
+  plugins: ReturnType<RepackedPluginFactory>[];
 };
 
-export type ConsumerAppConfig = DeepPartial<AppConfig>;
+export type ConsumerAppConfig = DeepPartial<AppConfig> & {
+  plugins?: ReturnType<RepackedPluginFactory>[];
+};
+
+export type RepackedPluginConfig = {
+  target: BuildTarget;
+  appConfig: AppConfig;
+};
+
+type RepackedPluginReturn = {
+  apply: (compiler: Compiler) => void;
+};
+
+export type RepackedPluginFactory = <Options = unknown>(
+  customOptions: Options
+) => (config: RepackedPluginConfig) => RepackedPluginReturn;
