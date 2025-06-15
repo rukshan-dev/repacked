@@ -70,6 +70,6 @@ type RepackedPluginReturn = {
   updateConfig?: (config: Configuration) => void;
 };
 
-export type RepackedPluginFactory = <Options = unknown>(
+export type RepackedPluginFactory<Options = unknown> = (
   customOptions: Options
 ) => (config: RepackedPluginConfig) => RepackedPluginReturn;
