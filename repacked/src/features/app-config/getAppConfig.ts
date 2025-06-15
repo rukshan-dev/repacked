@@ -1,5 +1,6 @@
 import cwd from "../../utils/cwd";
 import { AppConfig, ConsumerAppConfig } from "./types";
+import path from "path";
 
 const defaultAppConfig: AppConfig = {
   appName: "app_name",
@@ -27,10 +28,33 @@ const defaultAppConfig: AppConfig = {
   jest: (config) => config,
 };
 
+const resolveConfig = async (
+  extension: string
+): Promise<ConsumerAppConfig | null> => {
+  try {
+    const configPath = path.resolve(cwd(`config.repacked.${extension}`));
+    const configModule = await import(configPath);
+    return configModule.default ?? (configModule as ConsumerAppConfig);
+  } catch (e) {
+    return null;
+  }
+};
+
+const resolveConfigByExtensions = async () => {
+  const mjs = await resolveConfig("mjs");
+  if (mjs) {
+    return mjs;
+  }
+  const cjs = await resolveConfig("js");
+  if (cjs) {
+    return cjs;
+  }
+  throw new Error("unable to resolve config file");
+};
+
 const getAppConfig = async () => {
   try {
-    const config = (await import(cwd("config.repacked.js")))
-      .default as ConsumerAppConfig;
+    const config = await resolveConfigByExtensions();
     const finalConfig: AppConfig = {
       ...defaultAppConfig,
       ...config,
@@ -55,7 +79,7 @@ const getAppConfig = async () => {
 
     return finalConfig;
   } catch (e) {
-    console.warn("loading default config");
+    console.warn("loading default config", e);
     return defaultAppConfig;
   }
 };
