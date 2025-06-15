@@ -17,10 +17,6 @@ const getRspackConfig: (
 
   const outputDirectory = cwd(appConfig.output.dir);
 
-  const plugins: Configuration["plugins"] = appConfig.plugins.map((plugin) =>
-    plugin({ target: options.target, appConfig })
-  );
-
   const rspackConfig: Configuration = {
     mode,
     watch: options?.watch,
@@ -41,7 +37,7 @@ const getRspackConfig: (
       filename: "js/[name].[fullhash].js",
       clean: typeof options?.clean === "boolean" ? options.clean : true,
     },
-    plugins,
+    plugins: [],
     module: {
       rules: [
         {
@@ -97,6 +93,14 @@ const getRspackConfig: (
       hints: false,
     },
   };
+
+  //unstable - override rspack config via plugins
+  appConfig.plugins.forEach((plugin) => {
+    const customPlugin = plugin({ target: options.target, appConfig });
+    rspackConfig.plugins?.push(customPlugin);
+    customPlugin.updateConfig?.(rspackConfig);
+  });
+
   return appConfig.rspack(
     configOverride(rspackConfig),
     options?.target ?? "client"

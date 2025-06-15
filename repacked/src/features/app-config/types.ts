@@ -67,6 +67,7 @@ export type RepackedPluginConfig = {
 
 type RepackedPluginReturn = {
   apply: (compiler: Compiler) => void;
+  updateConfig?: (config: Configuration) => void;
 };
 
 export type RepackedPluginFactory = <Options = unknown>(
