@@ -1,29 +1,16 @@
 import { expressServer } from "../server";
 import yargs from "yargs";
-import importJson from "../utils/importJson";
-import path from "path";
 import chalk from "chalk";
+import externalServer from "virtual:repacked/server";
 
 const serve = async (port: number) => {
-  const appPath = "./app.js";
-  const configPath = "./config.json";
-  const config = importJson<{ client: { enabled: boolean } }>(
-    path.join(__dirname, configPath)
-  );
-
+  const config = process.env.__INTERNAL_REPACKED_SERVER_CONFIG;
   const clientEnabled = config.client.enabled;
 
-  const externalApp = (await import(/* webpackIgnore: true */ appPath)) as {
-    default: {
-      default: (
-        app: ReturnType<typeof expressServer>
-      ) => ReturnType<typeof expressServer>;
-    };
-  };
   const app = expressServer();
   app.set("trust proxy", true);
 
-  externalApp.default.default(app);
+  externalServer(app);
 
   if (clientEnabled) {
     app.use((req, res) => {

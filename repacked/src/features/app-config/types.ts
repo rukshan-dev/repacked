@@ -24,15 +24,9 @@ export type ClientOptions = {
   envFilter: (key: string, value?: string) => boolean;
 };
 
-export type ServerRuntimes = {
-  production: string;
-  development: string;
-};
-
 export type ServerOptions = {
   enabled: boolean;
   entry: string;
-  runtimeScript: Partial<ServerRuntimes>;
 };
 
 export type DevelopmentOptions = {

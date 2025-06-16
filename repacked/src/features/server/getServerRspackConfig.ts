@@ -3,9 +3,9 @@ import cwd from "../../utils/cwd";
 import { AppConfig } from "../app-config/types";
 import getRspackConfig from "../rspack/getRspackConfig";
 import { BuildMode, RspackConfigOptions } from "../rspack/types";
-import { BundleServerConfig } from "./plugins/bundleServerConfig";
 import { HotReloadServer } from "./plugins/hotReloadServer";
 import path from "path";
+import { DefinePlugin } from "@rspack/core";
 
 const getServerRspackConfig = async (
   mode: BuildMode,
@@ -14,21 +14,42 @@ const getServerRspackConfig = async (
 ) => {
   const runtimeEnv = mode === "production" ? "prod" : "dev";
 
-  const getCustomRuntime = () => {
-    if (mode === "production" && !!appConfig.server.runtimeScript.production) {
-      return appConfig.server.runtimeScript.production;
-    }
-    if (!!appConfig.server.runtimeScript.development) {
-      return appConfig.server.runtimeScript.development;
-    }
-    return null;
-  };
-
   return await getRspackConfig(mode, appConfig, {
     ...(options ?? {}),
     target: "server",
     override: (config) => {
-      config.plugins?.push(new BundleServerConfig(appConfig));
+      //replace virtual module with server
+      config.module?.rules?.push({
+        test: path.join(
+          __dirname,
+          "/features/server/runtimes/",
+          `runtime.${runtimeEnv}.js`
+        ),
+        use: [
+          {
+            loader: path.resolve(
+              __dirname,
+              "./features/server/loaders/loadServer.js"
+            ),
+            options: {
+              entry: cwd(appConfig.server.entry),
+            },
+          },
+        ],
+      });
+
+      //@deprecated: no longer in use because of virtual module replacement
+      //config.plugins?.push(new BundleServerConfig(appConfig));
+
+      config.plugins?.push(
+        new DefinePlugin({
+          "process.env.__INTERNAL_REPACKED_SERVER_CONFIG": {
+            client: {
+              enabled: appConfig.client.enabled,
+            },
+          },
+        })
+      );
 
       //@todo: find root cause for crash in hot reload
       if (mode === "production") {
@@ -49,14 +70,11 @@ const getServerRspackConfig = async (
 
       config.target = "node";
       config.entry = {
-        app: cwd(appConfig.server.entry),
-        index:
-          getCustomRuntime() ??
-          path.join(
-            __dirname,
-            "/features/server/runtimes/",
-            `runtime.${runtimeEnv}.js`
-          ),
+        index: path.join(
+          __dirname,
+          "/features/server/runtimes/",
+          `runtime.${runtimeEnv}.js`
+        ),
       };
       config.output!.libraryTarget = "commonjs2";
       config.output!.filename = "[name].js";
