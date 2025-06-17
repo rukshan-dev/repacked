@@ -25,6 +25,7 @@ export type ClientOptions = {
 };
 
 export type ServerOptions = {
+  runtime: "serverless" | "standalone";
   enabled: boolean;
   entry: string;
 };
