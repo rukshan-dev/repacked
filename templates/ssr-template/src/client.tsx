@@ -1,13 +1,21 @@
-import { StrictMode, FC, lazy, Suspense } from "react";
-import * as ReactDOM from "react-dom/client";
-import LandingPage from "./components/LandingPage/LandingPage";
+import { StrictMode } from 'react';
+import { hydrateRoot } from 'react-dom/client';
+import { RouterProvider, createBrowserRouter } from 'react-router';
+import routes from './routes';
 
-const App: FC = () => {
-  return <LandingPage />;
-};
+const browserRoutes = createBrowserRouter(routes, {
+  hydrationData: window.__staticRouterHydrationData,
+});
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+hydrateRoot(
+  document,
   <StrictMode>
-    <App />
+    <RouterProvider router={browserRoutes} />
   </StrictMode>
 );
+
+declare global {
+  interface Window {
+    __staticRouterHydrationData: any;
+  }
+}

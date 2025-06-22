@@ -24,4 +24,4 @@ const config = {
   plugins: [ssrPlugin({})],
 };
 
-module.exports = config;
+export default config;

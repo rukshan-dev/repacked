@@ -1,24 +1,13 @@
-import { FC, useEffect, useState } from "react";
-import "./styles.css";
+import { FC } from "react";
+import { useLoaderData } from "react-router";
 
 const LandingPage: FC = () => {
-  const [content, setContent] = useState({
-    h1: "",
-    h2: "",
-  });
-
-  useEffect(() => {
-    fetch("/hello")
-      .then((res) => res.json())
-      .then((res) => {
-        setContent(res);
-      });
-  }, []);
+  const loaderData = useLoaderData();
 
   return (
     <div className="container">
-      <h1>{content.h1}</h1>
-      <h2>{content.h2}</h2>
+      <h1>{loaderData.h1}</h1>
+      <h2>{loaderData.h2}</h2>
       <p>
         Congratulations on setting up your app with{" "}
         <span className="brand">Repacked</span>! Here's what you can look
