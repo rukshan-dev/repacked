@@ -47,6 +47,9 @@ const getServerRspackConfig = async (
             client: {
               enabled: appConfig.client.enabled,
             },
+            development: {
+              port: appConfig.development.port,
+            },
           },
         })
       );
