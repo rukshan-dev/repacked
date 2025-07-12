@@ -19,7 +19,7 @@ const App: FC = () => {
           href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="./styles.css" />
+        <link rel="stylesheet" href="/styles.css" />
       </head>
       <body>
         <Outlet />
