@@ -1,7 +1,10 @@
 declare module "virtual:repacked/server" {
   import type { Express } from "express";
-  import { RuntimeUtils } from "../features/server/runtime-utils";
 
-  const externalServer: (app: Express, utils: RuntimeUtils) => Express;
+  type RuntimeConfigs = {
+    getClientManifest: () => Promise<ClientAssets | null>;
+  };
+
+  const externalServer: (app: Express, utils: RuntimeConfigs) => Express;
   export default externalServer;
 }
