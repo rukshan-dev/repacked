@@ -5,16 +5,17 @@ import { landingPageLoader } from "./components/LandingPage/loader";
 
 const routes: RouteObject[] = [
   {
+    path: "/",
     Component: App,
     children: [
       {
         index: true,
-        Component: LandingPage,
+        element: <LandingPage />,
         loader: landingPageLoader,
       },
       {
         path: "*",
-        Component: LandingPage,
+        element: <LandingPage />,
         loader: landingPageLoader,
       },
     ],
