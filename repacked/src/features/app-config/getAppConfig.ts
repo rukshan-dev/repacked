@@ -18,7 +18,6 @@ const defaultAppConfig: AppConfig = {
   server: {
     enabled: false,
     entry: "./src/server.ts",
-    runtime: "standalone",
   },
   development: {
     port: 3000,

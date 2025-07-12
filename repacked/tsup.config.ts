@@ -9,7 +9,6 @@ export default defineConfig([
       "src/features/test/transformers",
       "src/features/server/runtimes/runtime.dev.ts",
       "src/features/server/runtimes/runtime.prod.ts",
-      "src/features/server/runtimes/runtime.serverless.ts",
       "src/features/server/loaders/loadServer.ts",
     ],
     splitting: false,

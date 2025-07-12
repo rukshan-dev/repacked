@@ -12,27 +12,19 @@ const getServerRspackConfig = async (
   appConfig: AppConfig,
   options?: Omit<RspackConfigOptions, "override" | "target">
 ) => {
-  let runtimeEnv = mode === "production" ? "prod" : "dev";
-
-  //handle serverless build runtime
-  if (runtimeEnv === "prod" && appConfig.server.runtime === "serverless") {
-    runtimeEnv = "serverless";
-  }
+  const runtimeEnv = mode === "production" ? "prod" : "dev";
 
   return await getRspackConfig(mode, appConfig, {
     ...(options ?? {}),
     target: "server",
     override: (config) => {
-      //entry file
-      const entry = path.join(
-        __dirname,
-        "/features/server/runtimes/",
-        `runtime.${runtimeEnv}.js`
-      );
-
       //replace virtual module with server
       config.module?.rules?.push({
-        test: entry,
+        test: path.join(
+          __dirname,
+          "/features/server/runtimes/",
+          `runtime.${runtimeEnv}.js`
+        ),
         use: [
           {
             loader: path.resolve(
@@ -78,7 +70,11 @@ const getServerRspackConfig = async (
 
       config.target = "node";
       config.entry = {
-        index: entry,
+        index: path.join(
+          __dirname,
+          "/features/server/runtimes/",
+          `runtime.${runtimeEnv}.js`
+        ),
       };
       config.output!.libraryTarget = "commonjs2";
       config.output!.filename = "[name].js";
