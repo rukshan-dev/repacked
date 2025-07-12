@@ -13,6 +13,8 @@ import { BuildMode, RspackConfigOptions } from "../rspack/types";
 import { EnvVariablesPlugin } from "./plugins/envVariables";
 import HtmlMFRspackPlugin from "./plugins/htmlMFWebpackPlugin";
 import getRspackConfig from "../rspack/getRspackConfig";
+import { ManifestPlugin } from "./plugins/manifestPlugin";
+import { CLIENT_MANIFEST_FILENAME } from "../../constants";
 
 const getClientRspackConfig = async (
   mode: BuildMode,
@@ -51,6 +53,9 @@ const getClientRspackConfig = async (
       ],
     })
   );
+
+  plugins.push(new ManifestPlugin({ fileName: CLIENT_MANIFEST_FILENAME }));
+
   //TODO: add support to server
   if (appConfig.moduleFederation) {
     plugins.push(new ModuleFederationPlugin(appConfig.moduleFederation));

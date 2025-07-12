@@ -4,13 +4,14 @@ import path from "path";
 import history from "connect-history-api-fallback";
 import yargs from "yargs";
 import externalServer from "virtual:repacked/server";
+import { getProdRuntimeConfigs } from "../runtime-config";
 
 const serve = async (port: number) => {
   const config = process.env.__INTERNAL_REPACKED_SERVER_CONFIG;
   const clientEnabled = config.client.enabled;
   const app = expressServer();
 
-  externalServer(app);
+  externalServer(app, getProdRuntimeConfigs());
 
   if (clientEnabled) {
     app.use(history());

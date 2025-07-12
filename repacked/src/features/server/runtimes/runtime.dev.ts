@@ -2,15 +2,17 @@ import { expressServer } from "../server";
 import yargs from "yargs";
 import chalk from "chalk";
 import externalServer from "virtual:repacked/server";
+import { getDevRuntimeConfigs } from "../runtime-config";
 
 const serve = async (port: number) => {
   const config = process.env.__INTERNAL_REPACKED_SERVER_CONFIG;
   const clientEnabled = config.client.enabled;
+  const devPort = config.development.port;
 
   const app = expressServer();
   app.set("trust proxy", true);
 
-  externalServer(app);
+  externalServer(app, getDevRuntimeConfigs({ devPort }));
 
   if (clientEnabled) {
     app.use((req, res) => {

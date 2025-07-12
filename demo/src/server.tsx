@@ -1,6 +1,6 @@
-import { Express } from "express";
+import { Server } from "repacked";
 
-const server = (app: Express) => {
+const server: Server = async (app) => {
   app.get("/hello", (req, res) => {
     res.send("Hello World");
   });

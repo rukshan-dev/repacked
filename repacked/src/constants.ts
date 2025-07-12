@@ -1,0 +1,1 @@
+export const CLIENT_MANIFEST_FILENAME = 'client-assets.json'

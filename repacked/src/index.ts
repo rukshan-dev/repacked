@@ -1,4 +1,5 @@
 import type { ConsumerAppConfig } from "./features/app-config/types";
+export type { Server } from "./features/server/types";
 export type {
   RepackedPluginConfig,
   RepackedPluginFactory,
