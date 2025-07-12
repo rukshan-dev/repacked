@@ -1,12 +1,7 @@
 import { CLIENT_MANIFEST_FILENAME } from "../../constants";
 import path from "path";
 import importJson from "./utils/importJson";
-
-type ClientAssets = Record<string, { js: string[]; css: string[] }>;
-
-export type RuntimeConfigs = {
-  getClientManifest: () => Promise<ClientAssets | null>;
-};
+import { ClientAssets, RuntimeConfigs } from "./types";
 
 type DevRuntimeOptions = {
   devPort: number;
