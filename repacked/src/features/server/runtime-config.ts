@@ -19,7 +19,12 @@ export const getDevRuntimeConfigs = (
     getClientManifest: async () => {
       try {
         const clientAssets = await fetch(
-          `http://localhost:${options.devPort}/${CLIENT_MANIFEST_FILENAME}`
+          `http://localhost:${options.devPort}/${CLIENT_MANIFEST_FILENAME}`,
+          {
+            headers: {
+              "x-dev-repacked-client-only": "manifest-fetch",
+            },
+          }
         );
         return await clientAssets.json();
       } catch (e) {

@@ -63,6 +63,10 @@ const serveServer = async (mode: BuildMode, appConfig: AppConfig) => {
   });
 
   app.use((req, res, next) => {
+    //handle client only requests
+    if (req.headers["x-dev-repacked-client-only"]) {
+      return next();
+    }
     nextWeakMap.set(req, next);
     proxy(req, res, next);
   });
