@@ -15,7 +15,7 @@ const server: Server = async (app, configs) => {
   app.use(bodyParser.json());
 
   // Server-side rendering middleware for React Router
-  app.use(ssrMiddleware(routes));
+  app.use(ssrMiddleware(routes, configs));
 
   return app;
 };

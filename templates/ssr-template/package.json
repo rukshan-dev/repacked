@@ -17,7 +17,7 @@
     "express": "5.1.0",
     "react-router": "7.6.2",
     "body-parser": "2.2.0",
-    "@repacked-tools/react-router-ssr": "0.0.1-alpha.4"
+    "@repacked-tools/react-router-ssr": "0.0.1-alpha.6"
   },
   "devDependencies": {
     "repacked": "1.1.9",

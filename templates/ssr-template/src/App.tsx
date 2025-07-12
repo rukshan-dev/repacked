@@ -1,3 +1,4 @@
+import { Scripts } from "@repacked-tools/react-router-ssr";
 import { FC } from "react";
 import { Outlet } from "react-router";
 
@@ -23,7 +24,7 @@ const App: FC = () => {
       </head>
       <body>
         <Outlet />
-        <script src="/main.js" defer></script>
+        <Scripts />
       </body>
     </html>
   );
