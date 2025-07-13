@@ -5,7 +5,7 @@ type Options = {
 };
 
 const defaultOptions: Options = {
-  fileName: 'client-assets.json',
+  fileName: "client-assets.json",
 };
 
 export class ManifestPlugin {
@@ -32,6 +32,11 @@ export class ManifestPlugin {
 
           for (const chunk of chunks) {
             for (const file of chunk.files) {
+              //skip HMR files being added to assets
+              if (file.endsWith(".hot-update.js")) {
+                continue;
+              }
+
               if (file.endsWith(".js")) {
                 jsFiles.add(file);
               } else if (file.endsWith(".css")) {
