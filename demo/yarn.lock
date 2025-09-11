@@ -6628,8 +6628,8 @@ __metadata:
   linkType: hard
 
 "repacked@file:../repacked/dist/::locator=test-project%40workspace%3A.":
-  version: 1.1.11
-  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=4bf90e&locator=test-project%40workspace%3A."
+  version: 2.0.0.alpha
+  resolution: "repacked@file:../repacked/dist/#../repacked/dist/::hash=2f06b3&locator=test-project%40workspace%3A."
   dependencies:
     "@module-federation/enhanced": "npm:0.6.15"
     "@rspack/cli": "npm:1.3.15"
@@ -6662,7 +6662,7 @@ __metadata:
     yargs: "npm:18.0.0"
   bin:
     repacked: ./cli.js
-  checksum: 10c0/be64b588eab6addc8a1092ca5145f40d5c31fface1b3addba06368ed56a2e1a82c484ca038725cee08b128912855486acb6b0a18e631d76e7b8c5d52874df957
+  checksum: 10c0/9d198ecda959e5dbfff0f44663d08750e3c3d5c40522080f3eb37cd82da61d91e132a84eb0ec6f757716a1af5556df6e176e609e06b8ce8c276f630ad803e42d
   languageName: node
   linkType: hard
 

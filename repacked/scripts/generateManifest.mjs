@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
-import packageJson from "../package.json" assert { type: "json" };
+import packageJson from "../package.json" with { type: "json" };
 import yargs from 'yargs';
 import { hideBin } from "yargs/helpers";
 
