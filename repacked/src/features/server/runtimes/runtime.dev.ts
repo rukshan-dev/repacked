@@ -3,6 +3,7 @@ import yargs from "yargs";
 import chalk from "chalk";
 import externalServer from "virtual:repacked/server";
 import { getDevRuntimeConfigs } from "../runtime-config";
+import { hideBin } from "yargs/helpers";
 
 const serve = async (port: number) => {
   const config = process.env.__INTERNAL_REPACKED_SERVER_CONFIG;
@@ -27,7 +28,7 @@ const serve = async (port: number) => {
 };
 
 const exec = async () => {
-  const argv = await yargs
+  const argv = await yargs(hideBin(process.argv))
     .option("port", {
       alias: "p",
       description: "Port to run the server on",

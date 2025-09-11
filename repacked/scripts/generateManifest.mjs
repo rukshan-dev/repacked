@@ -1,14 +1,15 @@
 #!/usr/bin/env node
-const fs = require("fs");
-const packageJson = require("../package.json");
-const yargs = require("yargs");
-const { hideBin } = require("yargs/helpers");
+import fs from 'node:fs';
+import packageJson from "../package.json" assert { type: "json" };
+import yargs from 'yargs';
+import { hideBin } from "yargs/helpers";
 
 const manifest = {
   name: `@rukshan-dev/${packageJson.name}`,
   version: packageJson.version,
   keywords: packageJson.keywords,
   main: "./index.js",
+  type: "module",
   bin: {
     repacked: "./cli.js",
   },

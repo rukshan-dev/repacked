@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from 'node:fs';
 
 const manifest = `//npm.pkg.github.com/:_authToken=\${GH_TOKEN}
 @rukshan-dev:registry=https://npm.pkg.github.com

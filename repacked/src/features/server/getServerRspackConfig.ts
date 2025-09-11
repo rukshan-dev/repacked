@@ -6,6 +6,7 @@ import { BuildMode, RspackConfigOptions } from "../rspack/types";
 import { HotReloadServer } from "./plugins/hotReloadServer";
 import path from "path";
 import { DefinePlugin } from "@rspack/core";
+import {__dirname} from '../../utils/dirname'
 
 const getServerRspackConfig = async (
   mode: BuildMode,
@@ -80,7 +81,7 @@ const getServerRspackConfig = async (
         ),
       };
       config.output!.libraryTarget = "commonjs2";
-      config.output!.filename = "[name].js";
+      config.output!.filename = "[name].cjs";
       config.output!.publicPath = appConfig.client.publicPath;
 
       config.optimization = {

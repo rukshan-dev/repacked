@@ -3,6 +3,7 @@ import { AppConfig } from "../app-config/types";
 import cwd from "../../utils/cwd";
 import path from "path";
 import { getSwcOptions } from "../swc/swcOptions";
+import {__dirname} from '../../utils/dirname'
 
 export const getJestConfig = (): Config => {
   return {

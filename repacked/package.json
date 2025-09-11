@@ -1,9 +1,10 @@
 {
   "name": "repacked",
-  "version": "1.1.11",
+  "version": "2.0.0.alpha",
   "main": "index.js",
   "repository": "git@github.com:rukshan-dev/repacked.git",
   "author": "Rukshan Fernando<hello@rukshan.dev>",
+  "type": "module",
   "keywords": [
     "framework",
     "react",
@@ -21,8 +22,8 @@
   "license": "MIT",
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "build:npm": "tsup && node ./scripts/generateManifest.js generate --registry=npm && cp LICENSE ./dist/LICENSE && cp ../README.md ./dist/README.md",
-    "build:github": "tsup && node ./scripts/generateManifest.js generate --registry=github && node ./scripts/setupNpmrc.js && cp LICENSE ./dist/LICENSE",
+    "build:npm": "tsup && node ./scripts/generateManifest.mjs generate --registry=npm && cp LICENSE ./dist/LICENSE && cp ../README.md ./dist/README.md",
+    "build:github": "tsup && node ./scripts/generateManifest.mjs generate --registry=github && node ./scripts/setupNpmrc.mjs && cp LICENSE ./dist/LICENSE",
     "repacked": "yarn build && node ./dist/cli.js",
     "deploy": "yarn --cwd ./dist npm publish"
   },
@@ -55,13 +56,12 @@
     "typescript": "^5.6.3",
     "webpack-dev-middleware": "7.4.2",
     "webpack-hot-middleware": "2.26.1",
-    "yargs": "17.7.2"
+    "yargs": "18.0.0"
   },
   "devDependencies": {
     "@types/connect-history-api-fallback": "1.5.4",
     "@types/express": "5.0.1",
     "@types/node": "22.8.6",
-    "@types/webpack-hot-middleware": "2.25.9",
-    "@types/yargs": "17.0.33"
+    "@types/webpack-hot-middleware": "2.25.9"
   }
 }

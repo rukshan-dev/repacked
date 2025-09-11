@@ -10,7 +10,7 @@ export class HotReloadServer {
 
   constructor(private appConfig: AppConfig) {
     cluster.setupPrimary({
-      exec: path.resolve(cwd(appConfig.output.dir, "index.js")),
+      exec: path.resolve(cwd(appConfig.output.dir, "index.cjs")),
       args: [`--port=${appConfig.development.port + 1}`],
     });
     cluster.on("online", (worker) => {

@@ -5,6 +5,8 @@ import history from "connect-history-api-fallback";
 import yargs from "yargs";
 import externalServer from "virtual:repacked/server";
 import { getProdRuntimeConfigs } from "../runtime-config";
+import { hideBin } from "yargs/helpers";
+
 
 const serve = async (port: number) => {
   const config = process.env.__INTERNAL_REPACKED_SERVER_CONFIG;
@@ -15,6 +17,7 @@ const serve = async (port: number) => {
 
   if (clientEnabled) {
     app.use(history());
+    // this will compile into cjs, so can use __dirname
     const publicAssets = path.join(__dirname, "client");
     app.use(express.static(publicAssets));
   }
@@ -25,7 +28,7 @@ const serve = async (port: number) => {
 };
 
 const exec = async () => {
-  const argv = await yargs
+  const argv = await yargs(hideBin(process.argv))
     .option("port", {
       alias: "p",
       description: "Port to run the server on",

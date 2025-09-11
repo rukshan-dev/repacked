@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "module": "CommonJS",
+    "module": "esnext",
     "moduleResolution": "node"
   },
   "include": ["src"]

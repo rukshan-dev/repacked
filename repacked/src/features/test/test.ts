@@ -1,7 +1,7 @@
 import { AppConfig } from "../app-config/types";
 import { getJestConfigAsJSON } from "./jestConfig";
 
-const jest = require("jest");
+import jest from "jest";
 
 export const runTest = async (argv: string[], appConfig: AppConfig) => {
   const jestConfig = getJestConfigAsJSON(appConfig.jest);

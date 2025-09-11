@@ -17,5 +17,6 @@ export default defineConfig([
     dts: true,
     outDir: "./dist",
     external: ["express", "virtual:repacked/server"],
+    format: ['esm']
   },
 ]);
