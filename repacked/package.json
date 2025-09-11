@@ -1,6 +1,6 @@
 {
   "name": "repacked",
-  "version": "2.0.0.alpha",
+  "version": "2.0.0-alpha.1",
   "main": "index.js",
   "repository": "git@github.com:rukshan-dev/repacked.git",
   "author": "Rukshan Fernando<hello@rukshan.dev>",
